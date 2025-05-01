@@ -13,71 +13,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// --- Public Pages
-Route::group([], function () {
-    Route::get('/', function () {
-        return view('public.index');
-    })->name('home');
-
-    Route::get('/docs', function () {
-        return view('public.docs');
-    })->name('docs.index');
-
-    Route::get('/docs/{slug}', function () {
-        return view('public.doc-detail');
-    })->name('docs.detail');
-
-    Route::get('/changelog', function () {
-        return view('public.changelog');
-    })->name('changelog');
-
-    Route::get('/legal', function () {
-        return view('public.legal');
-    })->name('legal');
-
-    Route::get('/search', function () {
-        return view('public.search-results');
-    })->name('search');
-});
-
-// --- Admin Dashboard Pages
 Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+    // Docs
+    Route::get('docs', fn () => view('admin.docs.index'))->name('admin.docs.index');
+    Route::get('docs/create', fn () => view('admin.docs.create'))->name('admin.docs.create');
+    Route::get('docs/{id}/edit', fn () => view('admin.docs.edit'))->name('admin.docs.edit');
+    Route::get('docs/delete/{id}', fn () => view('admin.docs.index'))->name('admin.docs.delete');
+    Route::get('docs/{id}', fn () => view('admin.docs.show'))->name('admin.docs.show');
 
-    Route::get('/docs', function () {
-        return view('admin.docs-list');
-    })->name('admin.docs.list');
+    // Sections
+    Route::get('sections', fn () => view('admin.sections.index'))->name('admin.sections.index');
+    Route::get('sections/create', fn () => view('admin.sections.create'))->name('admin.sections.create');
+    Route::get('sections/{id}/edit', fn () => view('admin.sections.edit'))->name('admin.sections.edit');
+    Route::get('sections/delete/{id}', fn () => view('admin.sections.index'))->name('admin.sections.delete');
 
-    Route::get('/docs/create', function () {
-        return view('admin.doc-create');
-    })->name('admin.docs.create');
-
-    Route::get('/sections', function () {
-        return view('admin.sections');
-    })->name('admin.sections');
-
-    Route::get('/changelog', function () {
-        return view('admin.changelog-list');
-    })->name('admin.changelog');
-
-    Route::get('/profile', function () {
-        return view('admin.profile');
-    })->name('admin.profile');
+    // Dashboard
+    Route::get('dashboard', fn () => view('admin.dashboard'))->name('admin.dashboard');
 });
 
-// --- Error Pages (for direct testing)
-Route::prefix('errors')->group(function () {
-    Route::get('/404', function () {
-        return view('errors.404');
-    })->name('errors.404');
+// ----------------------
+// Public Routes
+// ----------------------
 
-    Route::get('/500', function () {
-        return view('errors.500');
-    })->name('errors.500');
+Route::get('/', fn () => view('public.docs'))->name('public.docs');
+Route::get('/docs/{slug}', fn () => view('public.doc-detail'))->name('public.doc-detail');
+Route::get('/search', fn () => view('public.search-results'))->name('public.search');
 
-    Route::get('/maintenance', function () {
-        return view('errors.maintenance');
-    })->name('errors.maintenance');
-});
+// ----------------------
+// Error Routes (for testing only)
+// ----------------------
+
+Route::get('/simulate-404', fn () => abort(404))->name('error.404');
+Route::get('/simulate-500', fn () => abort(500))->name('error.500');
+Route::get('/simulate-maintenance', fn () => view('errors.maintenance'))->name('error.maintenance');
