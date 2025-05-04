@@ -10,18 +10,29 @@
 <body class="admin">
 <!-- Admin Sidebar -->
 <aside class="admin-sidebar">
-    <div class="sidebar-header">
-        <h2>Admin Panel</h2>
+    <div class="sidebar-top">
+        <div class="sidebar-header">
+            <h2>Admin Panel</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li class="active"><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/docs">Documents</a></li>
+                <li><a href="/admin/sections">Sections</a></li>
+                <li><a href="/">View Site</a></li>
+            </ul>
+        </nav>
     </div>
-    <nav class="sidebar-nav">
-        <ul>
-            <li class="active"><a href="/admin/dashboard">Dashboard</a></li>
-            <li><a href="/admin/docs">Documents</a></li>
-            <li><a href="/admin/sections">Sections</a></li>
-            <li><a href="/">View Site</a></li>
-        </ul>
-    </nav>
+
+    <div class="sidebar-bottom">
+        <form method="POST" action="{{ route('admin.logout') }}" class="logout-form">
+            @csrf
+            <button type="submit" class="btn btn-secondary logout-btn">Logout</button>
+        </form>
+    </div>
 </aside>
+
+
 
 <!-- Main Content -->
 <main class="admin-main">

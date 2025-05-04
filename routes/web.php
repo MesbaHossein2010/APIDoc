@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\DocController;
+use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,30 +17,41 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('admin')->group(function () {
-    // Docs
-    Route::get('docs', fn () => view('admin.docs.index'))->name('admin.docs.index');
-    Route::get('docs/create', fn () => view('admin.docs.create'))->name('admin.docs.create');
-    Route::get('docs/{id}/edit', fn () => view('admin.docs.edit'))->name('admin.docs.edit');
-    Route::get('docs/delete/{id}', fn () => view('admin.docs.index'))->name('admin.docs.delete');
-    Route::get('docs/{id}', fn () => view('admin.docs.show'))->name('admin.docs.show');
+    // Authentication
+    Route::get('login', [AuthController::class, 'showLogin'])->name('admin.showLogin');
+    Route::post('login', [AuthController::class, 'login'])->name('admin.login');
+    Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-    // Sections
-    Route::get('sections', fn () => view('admin.sections.index'))->name('admin.sections.index');
-    Route::get('sections/create', fn () => view('admin.sections.create'))->name('admin.sections.create');
-    Route::get('sections/{id}/edit', fn () => view('admin.sections.edit'))->name('admin.sections.edit');
-    Route::get('sections/delete/{id}', fn () => view('admin.sections.index'))->name('admin.sections.delete');
+    // Protected admin routes
+    Route::middleware(['CheckAuth'])->group(function () {
+        // Dashboard
+        Route::get('dashboard', [AuthController::class, 'dashboard'])->name('admin.dashboard');
 
-    // Dashboard
-    Route::get('dashboard', fn () => view('admin.dashboard'))->name('admin.dashboard');
+        // Docs Routes
+        Route::get('docs', [DocController::class, 'AdminIndex'])->name('admin.docs.index');
+        Route::get('docs/create', [DocController::class, 'create'])->name('admin.docs.create');
+        Route::post('docs/store', [DocController::class, 'store'])->name('admin.docs.store');
+        Route::get('docs/{id}/edit', [DocController::class, 'edit'])->name('admin.docs.edit');
+        Route::put('docs/{id}/update', [DocController::class, 'update'])->name('admin.docs.update');
+        Route::get('docs/delete/{id}', [DocController::class, 'delete'])->name('admin.docs.delete');
+        Route::get('docs/{id}', [DocController::class, 'show'])->name('admin.docs.show');
+
+        // Sections Routes
+        Route::get('sections', [SectionController::class, 'index'])->name('admin.sections.index');
+        Route::get('sections/create', [SectionController::class, 'create'])->name('admin.sections.create');
+        Route::post('sections/store', [SectionController::class, 'store'])->name('admin.sections.store');
+        Route::get('sections/{id}/edit', [SectionController::class, 'edit'])->name('admin.sections.edit');
+        Route::put('sections/{id}/update', [SectionController::class, 'update'])->name('admin.sections.update');
+        Route::get('sections/delete/{id}', [SectionController::class, 'delete'])->name('admin.sections.delete');
+    });
 });
 
 // ----------------------
 // Public Routes
 // ----------------------
 
-Route::get('/', fn () => view('public.docs'))->name('public.docs');
-Route::get('/docs/{slug}', fn () => view('public.doc-detail'))->name('public.doc-detail');
-Route::get('/search', fn () => view('public.search-results'))->name('public.search');
+Route::get('/', [DocController::class, 'index'])->name('public.docs');
+Route::post('/', [DocController::class, 'search']);
 
 // ----------------------
 // Error Routes (for testing only)

@@ -19,37 +19,30 @@ body.admin {
     position: fixed;
     height: 100vh;
     border-right: 1px solid #2d2d2d;
-}
-
-.admin-main {
-    margin-left: 220px;
-    flex: 1;
-    background: #121212;
-}
-
-.admin-content {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* ===== HEADER STYLES ===== */
-.admin-header {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+.sidebar-top {
+    flex-grow: 1;
+}
+
+.sidebar-header {
+    padding: 1.5rem 1rem;
+    display: flex;
     align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
+    justify-content: center;
     border-bottom: 1px solid #2d2d2d;
 }
 
-.admin-header h1 {
+.sidebar-header h2 {
     margin: 0;
+    font-size: 1.25rem;
     color: #fff;
-    font-size: 1.75rem;
 }
 
-/* ===== NAVIGATION ===== */
 .sidebar-nav {
     padding: 1rem;
 }
@@ -72,6 +65,48 @@ body.admin {
 .sidebar-nav a.active {
     background: #2d2d2d;
     color: #80bfff;
+}
+
+.sidebar-bottom {
+    padding: 1rem;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.logout-btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* ===== MAIN CONTENT ===== */
+.admin-main {
+    margin-left: 220px;
+    flex: 1;
+    background: #121212;
+}
+
+.admin-content {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== HEADER STYLES ===== */
+.admin-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #2d2d2d;
+}
+
+.admin-header h1 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.75rem;
 }
 
 /* ===== TABLE STYLES ===== */

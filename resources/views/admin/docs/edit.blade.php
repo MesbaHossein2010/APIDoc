@@ -5,7 +5,7 @@
 @section('content')
     <div class="form-container">
         <div class="form-header">
-            <h2>Create New Document</h2>
+            <h2>Edit</h2>
         </div>
 
         <form>
@@ -31,7 +31,7 @@
                         <polyline points="17 21 17 13 7 13 7 21"></polyline>
                         <polyline points="7 3 7 8 15 8"></polyline>
                     </svg>
-                    Create Document
+                    Edit Document
                 </button>
                 <a href="{{ route('admin.docs.index') }}" class="btn-form btn-cancel">
                     Cancel
