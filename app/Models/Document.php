@@ -13,5 +13,5 @@ class Document extends Model
     {
         return $this->belongsTo(Section::class);
     }
-    protected $fillable = ['title','section_id', 'slug', 'content'];
+    protected $fillable = ['title','section_id', 'slug', 'content', 'user_id'];
 }

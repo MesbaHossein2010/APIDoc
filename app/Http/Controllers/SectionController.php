@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Section;
 use Illuminate\Http\Request;
 
@@ -10,9 +9,10 @@ class SectionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function AdminIndex()
     {
-        return view('admin.sections.index');
+        $sections = Section::all();
+        return view('admin.sections.index', compact('sections'));
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Models\Document;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,7 +15,9 @@ class AuthController extends Controller
 
     public function dashboard(Request $request)
     {
-        return view('admin.dashboard');
+        $DocsNum = Document::all()->count();
+        $SectionsNum = Section::all()->count();
+        return view('admin.dashboard', compact('DocsNum', 'SectionsNum'));
     }
 
     public function showLogin()

@@ -395,3 +395,33 @@ body.admin {
         width: 100%;
     }
 }
+/* ===== CODE BLOCK STYLES ===== */
+.doc-content code {
+    background-color: #1e1e1e;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: Menlo, Monaco, Consolas, monospace;
+    font-size: 0.95rem;
+    color: #ffb86c;
+}
+
+.doc-content pre {
+    background-color: #1e1e1e;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: Menlo, Monaco, Consolas, monospace;
+    font-size: 0.95rem;
+    color: #e0e0e0;
+    line-height: 1.6;
+    border: 1px solid #2d2d2d;
+    margin-bottom: 1.5rem;
+}
+
+.doc-content pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    color: inherit;
+    font-size: inherit;
+}

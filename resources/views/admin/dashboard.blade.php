@@ -12,11 +12,11 @@
         <!-- Stats Cards -->
         <div class="stat-card">
             <h3>Total Documents</h3>
-            <p>24</p>
+            <p>{{ $DocsNum }}</p>
         </div>
         <div class="stat-card">
             <h3>Sections</h3>
-            <p>5</p>
+            <p>{{ $SectionsNum }}</p>
         </div>
     </div>
 @endsection

@@ -32,10 +32,6 @@ a:hover {
     background: #1e1e1e;
     border-right: 1px solid #2d2d2d;
     padding: 1rem;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
     flex-shrink: 0;
 }
 
@@ -69,12 +65,12 @@ a:hover {
 }
 
 .sidebar-section {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 1.5rem 0 0.5rem 0;
+    letter-spacing: 0.1em;
+    margin: 2rem 0 0.5rem 0;
     color: #888;
-    padding: 0.5rem 1rem;
+    padding-left: 0.5rem;
 }
 
 .sidebar-menu {
@@ -106,17 +102,52 @@ a:hover {
     font-weight: 500;
 }
 
+/* ===== Scroll Spy Stickiness (optional) ===== */
+.sidebar-nav {
+    position: sticky;
+    top: 6rem;
+    max-height: calc(100vh - 6rem);
+    overflow-y: auto;
+}
+
 /* ===== Main Content ===== */
 .docs-content {
     flex: 1;
     padding: 1rem 1rem 3rem 1rem;
-    max-width: calc(100% - 240px);
+    max-width: 100%;
     overflow-x: hidden;
 }
 
 .docs-article {
     padding: 1rem 0;
-    max-width: 900px; /* Optimal reading width */
+}
+
+/* ===== Section Grouping ===== */
+.section-wrapper {
+    margin-bottom: 4rem;
+}
+
+.section-header {
+    text-align: center;
+    margin: 5rem 0 3rem 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    border-bottom: 2px solid #444;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+
+/* ===== Individual Doc Sections ===== */
+.docs-article section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #2d2d2d;
 }
 
 .docs-article h1 {
@@ -134,9 +165,19 @@ a:hover {
 }
 
 .docs-article h3 {
-    font-size: 1.2rem;
-    color: #f0f0f0;
-    margin: 1.5rem 0 0.5rem 0;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+/* ===== Content Elements ===== */
+.docs-article p {
+    margin-bottom: 1.5rem;
+}
+
+ul, ol {
+    padding-left: 1.5rem;
+    margin: 1rem 0 2rem 0;
 }
 
 pre {
@@ -145,7 +186,7 @@ pre {
     border-radius: 6px;
     overflow-x: auto;
     border: 1px solid #2d2d2d;
-    margin: 1rem 0;
+    margin-bottom: 2.5rem;
 }
 
 code {
@@ -154,15 +195,10 @@ code {
     color: #e0e0e0;
 }
 
-ul, ol {
-    padding-left: 1.5rem;
-    margin: 1rem 0;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1rem 0;
+    margin-bottom: 2.5rem;
     background: #1e1e1e;
     border: 1px solid #2d2d2d;
 }
@@ -213,4 +249,28 @@ table th {
 /* ===== Smooth Scrolling ===== */
 html {
     scroll-behavior: smooth;
+}
+
+.sidebar::-webkit-scrollbar,
+.docs-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.docs-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.docs-content::-webkit-scrollbar-thumb {
+    background-color: #2d2d2d;
+    border-radius: 4px;
+    border: 1px solid #444;
+}
+
+/* Firefox */
+.sidebar,
+.docs-content {
+    scrollbar-width: thin;
+    scrollbar-color: #2d2d2d transparent;
 }

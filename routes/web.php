@@ -20,7 +20,7 @@ Route::prefix('admin')->group(function () {
     // Authentication
     Route::get('login', [AuthController::class, 'showLogin'])->name('admin.showLogin');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login');
-    Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
     // Protected admin routes
     Route::middleware(['CheckAuth'])->group(function () {
@@ -32,16 +32,16 @@ Route::prefix('admin')->group(function () {
         Route::get('docs/create', [DocController::class, 'create'])->name('admin.docs.create');
         Route::post('docs/store', [DocController::class, 'store'])->name('admin.docs.store');
         Route::get('docs/{id}/edit', [DocController::class, 'edit'])->name('admin.docs.edit');
-        Route::put('docs/{id}/update', [DocController::class, 'update'])->name('admin.docs.update');
+        Route::post('docs/{id}/update', [DocController::class, 'update'])->name('admin.docs.update');
         Route::get('docs/delete/{id}', [DocController::class, 'delete'])->name('admin.docs.delete');
         Route::get('docs/{id}', [DocController::class, 'show'])->name('admin.docs.show');
 
         // Sections Routes
-        Route::get('sections', [SectionController::class, 'index'])->name('admin.sections.index');
+        Route::get('sections', [SectionController::class, 'AdminIndex'])->name('admin.sections.index');
         Route::get('sections/create', [SectionController::class, 'create'])->name('admin.sections.create');
         Route::post('sections/store', [SectionController::class, 'store'])->name('admin.sections.store');
         Route::get('sections/{id}/edit', [SectionController::class, 'edit'])->name('admin.sections.edit');
-        Route::put('sections/{id}/update', [SectionController::class, 'update'])->name('admin.sections.update');
+        Route::post('sections/{id}/update', [SectionController::class, 'update'])->name('admin.sections.update');
         Route::get('sections/delete/{id}', [SectionController::class, 'delete'])->name('admin.sections.delete');
     });
 });

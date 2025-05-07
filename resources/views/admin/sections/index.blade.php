@@ -2,6 +2,91 @@
 
 @section('title', 'Manage Sections')
 
+@push('styles')
+<style>
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-create {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background-color: #2563eb;
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
+
+    .btn-create:hover {
+        background-color: #1e40af;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .admin-table th {
+        background-color: #1f2937;
+        color: #f9fafb;
+    }
+
+    .admin-table tbody tr:hover {
+        background-color: #f3f4f6;
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.6rem;
+    }
+
+    .btn-action {
+        color: #6b7280;
+        transition: color 0.2s;
+    }
+
+    .btn-action svg {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+    }
+
+    .btn-view:hover {
+        color: #22c55e;
+    }
+
+    .btn-edit:hover {
+        color: #f59e0b;
+    }
+
+    .btn-delete:hover {
+        color: #ef4444;
+    }
+</style>
+@endpush
+
 @section('content')
     <div class="admin-header">
         <h1>Manage Sections</h1>
@@ -12,71 +97,45 @@
             </svg>
             New Section
         </a>
-    </div>>
+    </div>
 
     <table class="admin-table">
         <thead>
         <tr>
             <th>Title</th>
-            <th>Last Updated</th>
+            <th>Created At</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Introduction</td>
-            <td>2023-10-15</td>
-            <td class="actions">
-                <div class="action-buttons">
-                    <!-- Edit Button -->
-                    <a href="{{ route('admin.sections.edit', ['id' => 1]) }}" class="btn-action btn-edit" title="Edit">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                    </a>
-
-                    <!-- Delete Button -->
-                    <form action="{{ route('admin.sections.delete', ['id' => 1]) }}" method="POST" style="display:inline;">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="(will-be-dynamic-in-real-app)">
-                        <button type="submit" class="btn-action btn-delete" title="Delete">
+        @foreach ($sections as $section)
+            <tr>
+                <td>{{ $section->title }}</td>
+                <td>{{ $section->created_at->format('Y-m-d') }}</td>
+                <td class="actions">
+                    <div class="action-buttons">
+                        <!-- Edit Button -->
+                        <a href="{{ route('admin.sections.edit', $section->id) }}" class="btn-action btn-edit" title="Edit">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M3 6h18"></path>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                             </svg>
-                        </button>
-                    </form>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>Core Endpoints</td>
-            <td>2023-10-10</td>
-            <td class="actions">
-                <div class="action-buttons">
-                    <!-- Edit Button -->
-                    <a href="{{ route('admin.sections.edit', ['id' => 2]) }}" class="btn-action btn-edit" title="Edit">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                    </a>
+                        </a>
 
-                    <!-- Delete Button -->
-                    <form action="{{ route('admin.sections.delete', ['id' => 2]) }}" method="POST" style="display:inline;">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="(will-be-dynamic-in-real-app)">
-                        <button type="submit" class="btn-action btn-delete" title="Delete">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                <path d="M3 6h18"></path>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-            </td>
-        </tr>
+                        <!-- Delete Button -->
+                        <form action="{{ route('admin.sections.delete', $section->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn-action btn-delete" title="Delete" style="background:none; border:none; padding:0;" onclick="return confirm('Are you sure you want to delete this section?')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <path d="M3 6h18"></path>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 @endsection

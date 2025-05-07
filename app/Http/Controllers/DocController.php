@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocEditRequest;
+use App\Http\Requests\DocStoreRequest;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use App\Models\Document;
+use Illuminate\Support\Facades\Auth;
 
 class DocController extends Controller
 {
@@ -19,7 +22,9 @@ class DocController extends Controller
     }
     public function AdminIndex()
     {
-        return view('admin.docs.index');
+        $sections = Section::all();
+        $docs = Document::all()->sortBy('section_id');
+        return view('admin.docs.index', compact('sections', 'docs'));
     }
 
     /**
@@ -27,15 +32,29 @@ class DocController extends Controller
      */
     public function create()
     {
-        return view('admin.docs.create');
+        $sections = Section::all();
+        return view('admin.docs.create', compact('sections'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DocStoreRequest $request)
     {
-        //
+        $title = $request->input('title');
+        $slug = $request->input('slug');
+        $section_id = $request->input('section_id');
+        $content = $request->input('content');
+
+        $doc = Document::create([
+            'title' => $title,
+            'slug' => $slug,
+            'section_id' => $section_id,
+            'content' => $content,
+            'user_id' => 'admin'
+        ]);
+
+        return redirect()->route('admin.docs.index');
     }
 
     /**
@@ -52,15 +71,29 @@ class DocController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.docs.edit');
+        $doc = Document::find($id);
+        $sections = Section::all();
+        return view('admin.docs.edit', compact('doc', 'sections'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DocEditRequest $request, string $id)
     {
-        //
+        $doc = Document::find($id);
+        $title = $request->input('title');
+        $slug = $request->input('slug');
+        $section_id = $request->input('section_id');
+        $content = $request->input('content');
+
+        $doc->title = $title;
+        $doc->slug = $slug;
+        $doc->section_id = $section_id;
+        $doc->content = $content;
+        $doc->save();
+
+        return redirect()->route('admin.docs.index');
     }
 
     /**

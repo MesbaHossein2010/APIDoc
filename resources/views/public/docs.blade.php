@@ -34,12 +34,23 @@
             <article class="docs-article">
                 <h1>API Documentation</h1>
 
-                @foreach($docs as $doc)
-                    <section id="{{ $doc->slug }}">
-                        <h2>{{ $doc->title }}</h2>
-                        <p>{!! $doc->content !!}</p>
-                    </section>
+                @foreach($sections as $section)
+                    @if(count($section->docs))
+                        <div class="section-wrapper">
+                            <div class="section-header">
+                                <h2 class="section-title">{{ $section->title }}</h2>
+                            </div>
+
+                            @foreach($section->docs as $doc)
+                                <section id="{{ $doc->slug }}">
+                                    <h3>{{ $doc->title }}</h3>
+                                    <p>{!! $doc->content !!}</p>
+                                </section>
+                            @endforeach
+                        </div>
+                    @endif
                 @endforeach
+
 
             </article>
         </main>
@@ -51,28 +62,35 @@
             const sections = document.querySelectorAll('.docs-article section');
             const navLinks = document.querySelectorAll('.sidebar-menu a');
 
-            function activateNavLink() {
-                let currentSection = null;
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -70% 0px',
+                threshold: 0
+            };
 
-                sections.forEach(section => {
-                    const rect = section.getBoundingClientRect();
-                    if (rect.top <= 80 && rect.bottom > 80) {
-                        currentSection = section;
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+
+                                // Scroll the link into view if it's out of view
+                                link.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'nearest',
+                                    inline: 'nearest'
+                                });
+                            }
+                        });
                     }
                 });
+            }, observerOptions);
 
-                if (currentSection) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${currentSection.id}`) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            }
-
-            window.addEventListener('scroll', activateNavLink);
-            activateNavLink(); // run on load too
+            sections.forEach(section => observer.observe(section));
         });
     </script>
 @endpush
