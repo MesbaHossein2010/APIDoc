@@ -33,7 +33,7 @@ Route::prefix('admin')->group(function () {
         Route::post('docs/store', [DocController::class, 'store'])->name('admin.docs.store');
         Route::get('docs/{id}/edit', [DocController::class, 'edit'])->name('admin.docs.edit');
         Route::post('docs/{id}/update', [DocController::class, 'update'])->name('admin.docs.update');
-        Route::get('docs/delete/{id}', [DocController::class, 'delete'])->name('admin.docs.delete');
+        Route::get('docs/delete/{id}', [DocController::class, 'destroy'])->name('admin.docs.delete');
         Route::get('docs/{id}', [DocController::class, 'show'])->name('admin.docs.show');
 
         // Sections Routes
@@ -42,7 +42,8 @@ Route::prefix('admin')->group(function () {
         Route::post('sections/store', [SectionController::class, 'store'])->name('admin.sections.store');
         Route::get('sections/{id}/edit', [SectionController::class, 'edit'])->name('admin.sections.edit');
         Route::post('sections/{id}/update', [SectionController::class, 'update'])->name('admin.sections.update');
-        Route::get('sections/delete/{id}', [SectionController::class, 'delete'])->name('admin.sections.delete');
+        Route::get('sections/delete/{id}', [SectionController::class, 'destroy'])->name('admin.sections.delete');
+        Route::get('sections/{id}', [SectionController::class, 'show'])->name('admin.sections.show');
     });
 });
 

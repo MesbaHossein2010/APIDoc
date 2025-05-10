@@ -24,8 +24,8 @@ class DocStoreRequest extends FormRequest
         return [
             'title' => 'string|required|min:3|max:50',
             'content' => 'string|required|min:3|max:65330',
-            'section_id' => 'integer|exists:sections,id',
-            'slug' => 'string|required|min:3|max:50|unique:documents,slug',
+            'section_id' => 'integer|required',
+            'slug' => 'string|required|min:3|max:500|unique:documents,slug',
         ];
     }
 

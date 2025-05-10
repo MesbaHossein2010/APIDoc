@@ -19,6 +19,13 @@ class DocumentFactory extends Factory
     {
         $htmlSnippets = [
             "<b>{$this->faker->word}</b>",
+            '<br>',
+            '<br>',
+            '<br>',
+            '<br>',
+            '<br>',
+            '<br>',
+            '<br>',
             "<i>{$this->faker->word}</i>",
             "<a href=\"{$this->faker->url}\">{$this->faker->word}</a>",
             "<code>{$this->faker->sentence}</code>",
@@ -31,7 +38,7 @@ class DocumentFactory extends Factory
 
         // Shuffle and join a few snippets together
         shuffle($htmlSnippets);
-        $htmlContent = implode(' ', array_slice($htmlSnippets, 0, rand(3, 6)));
+        $htmlContent = implode(' ', $htmlSnippets);
 
         return [
             'title' => $this->faker->name(),

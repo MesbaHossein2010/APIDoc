@@ -25,13 +25,13 @@ class DocEditRequest extends FormRequest
         return [
             'title' => 'string|required|min:3|max:50',
             'content' => 'string|required|min:3|max:65330',
-            'section_id' => 'integer|required|exists:sections,id',
+            'section_id' => 'integer|required',
             'slug' => [
                 'string',
                 'required',
                 'min:3',
-                'max:50',
-                Rule::unique('documents', 'slug')->ignore($this->route('id')), // assuming route model binding
+                'max:500',
+                Rule::unique('documents', 'slug')->ignore($this->route('id')) // assuming route model binding
             ],
         ];
     }

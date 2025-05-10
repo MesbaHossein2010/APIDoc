@@ -1,99 +1,116 @@
 @extends('layouts.admin')
 
 @section('title', 'Manage Documents')
-    <style>
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
+<style>
+    .btn-cancel {
+        background-color: #444;
+        color: #e0e0e0;
+        margin-left: 1rem;
+    }
 
-        .btn-create {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background-color: #2563eb;
-            color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
 
-        .btn-create:hover {
-            background-color: #1e40af;
-        }
+    .btn-create {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background-color: #2563eb;
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background-color 0.2s;
+    }
 
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-        }
+    .btn-create:hover {
+        background-color: #1e40af;
+    }
 
-        .admin-table th,
-        .admin-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
 
-        .admin-table th {
-            background-color: #1f2937;
-            color: #f9fafb;
-        }
+    .admin-table th,
+    .admin-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
 
-        .admin-table tbody tr:hover {
-            background-color: #f3f4f6;
-        }
+    .admin-table th {
+        background-color: #1f2937;
+        color: #f9fafb;
+    }
 
-        .actions {
-            display: flex;
-            align-items: center;
-        }
+    .admin-table tbody tr:hover {
+        background-color: #f3f4f6;
+    }
 
-        .action-buttons {
-            display: flex;
-            gap: 0.6rem;
-        }
+    .actions {
+        display: flex;
+        align-items: center;
+    }
 
-        .btn-action {
-            color: #6b7280; /* default gray */
-            transition: color 0.2s;
-        }
+    .action-buttons {
+        display: flex;
+        gap: 0.6rem;
+    }
 
-        .btn-action svg {
-            width: 20px;
-            height: 20px;
-            stroke: currentColor;
-        }
+    .btn-action {
+        color: #6b7280; /* default gray */
+        transition: color 0.2s;
+    }
 
-        .btn-view:hover {
-            color: #22c55e; /* green */
-        }
+    .btn-action svg {
+        width: 20px;
+        height: 20px;
+        stroke: currentColor;
+    }
 
-        .btn-edit:hover {
-            color: #f59e0b; /* amber */
-        }
+    .btn-view:hover {
+        color: #22c55e; /* green */
+    }
 
-        .btn-delete:hover {
-            color: #ef4444; /* red */
-        }
-    </style>
+    .btn-edit:hover {
+        color: #f59e0b; /* amber */
+    }
+
+    .btn-delete:hover {
+        color: #ef4444; /* red */
+    }
+</style>
 
 @section('content')
+    @if(!isset($section))
+        @php($section = null)
+    @endif
+    @error('error')
+    <span style="color: red">{{$message}}</span>
+    @enderror
     <div class="admin-header">
-        <h1>Manage Documents</h1>
-        <a href="{{ route('admin.docs.create') }}" class="btn-create">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            New Document
-        </a>
+        <h1>{{ $section? "Manage documents related to\"$section->title\"":'Manage Documents' }}</h1>
+        @if(!$section)
+            <a href="{{ route('admin.docs.create') }}" class="btn-create">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                New Document
+            </a>
+        @else
+            <a style="color: red;" href="{{ route('admin.sections.index') }}" class="btn-form btn-cancel">Cancel</a>
+        @endif
     </div>
 
     <table class="admin-table">
@@ -109,7 +126,7 @@
         @foreach ($docs as $doc)
             <tr>
                 <td>{{ $doc->title }}</td>
-                <td>{{ $doc->section->title }}</td>
+                <td>{!! $doc->section != null? $doc->section->title:'<span style="color: red;">No section selected</span>' !!}</td>
                 <td>{{ $doc->updated_at->format('Y-m-d') }}</td>
                 <td class="actions">
                     <div class="action-buttons">
@@ -130,15 +147,15 @@
                         </a>
 
                         <!-- Delete Button -->
-                        <form action="{{ route('admin.docs.delete', $doc->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn-action btn-delete" title="Delete" style="background:none; border:none; padding:0;">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path d="M3 6h18"></path>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                </svg>
-                            </button>
-                        </form>
+                        <button type="button" class="btn-action btn-delete" title="Delete"
+                                onclick="location.href='{{ route('admin.docs.delete', $doc->id) }}'"
+                                style="background:none; border:none; padding:0;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M3 6h18"></path>
+                                <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
                     </div>
                 </td>
             </tr>

@@ -2,7 +2,6 @@
 
 @section('title', 'Manage Sections')
 
-@push('styles')
 <style>
     .admin-header {
         display: flex;
@@ -63,7 +62,7 @@
     }
 
     .btn-action {
-        color: #6b7280;
+        color: #6b7280; /* default gray */
         transition: color 0.2s;
     }
 
@@ -74,24 +73,27 @@
     }
 
     .btn-view:hover {
-        color: #22c55e;
+        color: #22c55e; /* green */
     }
 
     .btn-edit:hover {
-        color: #f59e0b;
+        color: #f59e0b; /* amber */
     }
 
     .btn-delete:hover {
-        color: #ef4444;
+        color: #ef4444; /* red */
     }
 </style>
-@endpush
 
 @section('content')
+    @error('error')
+    <span style="color: red">{{ $message }}</span>
+    @enderror
     <div class="admin-header">
         <h1>Manage Sections</h1>
         <a href="{{ route('admin.sections.create') }}" class="btn-create">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
@@ -103,7 +105,8 @@
         <thead>
         <tr>
             <th>Title</th>
-            <th>Created At</th>
+            <th>Document num</th>
+            <th>Last Updated</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -111,9 +114,24 @@
         @foreach ($sections as $section)
             <tr>
                 <td>{{ $section->title }}</td>
-                <td>{{ $section->created_at->format('Y-m-d') }}</td>
+                <td>
+                    @if ($section->docs->isEmpty())
+                        <span class="no-docs">No documents available</span>
+                    @else
+                        {{ $section->docs->count() }}
+                    @endif
+                </td>
+                <td>{{ $section->updated_at->format('Y-m-d') }}</td>
                 <td class="actions">
                     <div class="action-buttons">
+                        <!-- View Button -->
+                        <a href="{{ route('admin.sections.show', $section->id) }}" class="btn-action btn-view" title="View">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </a>
+
                         <!-- Edit Button -->
                         <a href="{{ route('admin.sections.edit', $section->id) }}" class="btn-action btn-edit" title="Edit">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -123,15 +141,14 @@
                         </a>
 
                         <!-- Delete Button -->
-                        <form action="{{ route('admin.sections.delete', $section->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            <button type="submit" class="btn-action btn-delete" title="Delete" style="background:none; border:none; padding:0;" onclick="return confirm('Are you sure you want to delete this section?')">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <path d="M3 6h18"></path>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                </svg>
-                            </button>
-                        </form>
+                        <button type="button" class="btn-action btn-delete" title="Delete" onclick="location.href='{{ route('admin.sections.delete', $section->id) }}'"
+                                style="background:none; border:none; padding:0;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M3 6h18"></path>
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
                     </div>
                 </td>
             </tr>

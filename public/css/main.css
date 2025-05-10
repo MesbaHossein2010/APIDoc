@@ -36,10 +36,15 @@ a:hover {
 }
 
 .sidebar-header {
+    position: sticky;
+    top: 0;
+    background: #1e1e1e;
     padding-bottom: 1rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid #2d2d2d;
+    z-index: 10;
 }
+
 
 .sidebar-header h2 {
     margin: 0 0 0.5rem 0;
@@ -273,4 +278,16 @@ html {
 .docs-content {
     scrollbar-width: thin;
     scrollbar-color: #2d2d2d transparent;
+}
+
+.cancel-search-btn {
+    display: inline-block;
+    margin-top: 8px;
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+.cancel-search-btn:hover {
+    color: #ff4c4c;
 }

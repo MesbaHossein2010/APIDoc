@@ -172,7 +172,7 @@
             <div class="form-row">
                 <label for="section_id" class="form-label">Section</label>
                 <select name="section_id" id="section_id" class="form-input">
-                    <option value="">-- Select Section --</option>
+                    <option value="0">-- No section --</option>
                     @foreach ($sections as $section)
                         <option value="{{ $section->id }}" {{ old('section_id') == $section->id ? 'selected' : '' }}>
                             {{ $section->title }}

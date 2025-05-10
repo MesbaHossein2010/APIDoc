@@ -3,8 +3,8 @@
 @section('title', 'API Documentation')
 
 @section('content')
-    @if(!isset($docs))
-        @php($docs = null)
+    @if(!isset($search))
+        @php($search = null)
     @endif
     @if(!isset($sections))
         @php($sections = null)
@@ -14,17 +14,31 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h2>API Docs</h2>
-                <input type="text" class="sidebar-search" placeholder="Search..." aria-label="Search documentation">
-            </div>
+                <form method="post">
+                    @csrf
+                    <input name="search" type="text" class="sidebar-search" placeholder="Search..." aria-label="Search documentation" value="{{ $search }}">
+                    <input type="submit" hidden="">
 
+                    @if($search)
+                        <a href="" class="cancel-search-btn">✕ Cancel</a>
+                    @endif
+                </form>
+
+            </div>
             <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
-                    @foreach($sections as $section)
-                        <li class="sidebar-section">{{ $section->title }}</li>
-                        @foreach($section->docs as $doc)
-                            <li><a href="#{{ $doc->slug }}">{{ $doc->title }}</a></li>
+                    @if($search == null)
+                        @foreach($sections as $section)
+                            <li class="sidebar-section">{{ $section->title }}</li>
+                            @foreach($section->docs as $doc)
+                                <li><a href="#{{ $doc->slug }}">{{ $doc->title }}</a></li>
+                            @endforeach
                         @endforeach
-                    @endforeach
+                    @else
+                        @foreach($docs as $doc)
+                            <li><a href="#{{ $doc->slug }}">{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</a></li>
+                        @endforeach
+                    @endif
                 </ul>
             </nav>
         </aside>

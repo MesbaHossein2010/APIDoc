@@ -10,8 +10,6 @@
 
     {{-- Admin CSS --}}
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-
-    @stack('styles')
 </head>
 <body class="admin">
 

@@ -8,10 +8,30 @@
             <h2>Create New Section</h2>
         </div>
 
-        <form>
+        <form method="POST" action="{{ route('admin.sections.store') }}">
+            @csrf
             <div class="form-row">
                 <label for="title" class="form-label">Section Title</label>
-                <input type="text" id="title" class="form-input" placeholder="e.g. API Reference">
+                <input type="text" id="title" name="title" class="form-input" placeholder="e.g. API Reference" value="{{ old('title') }}">
+                @error('title')
+                <div class="form-error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-row">
+                <label class="form-label">Assign Documents</label>
+                <div class="form-checkbox-group">
+                    @foreach($documents as $document)
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="document_{{ $document->id }}" name="documents[]" value="{{ $document->id }}"
+                                {{ in_array($document->id, old('documents', [])) ? 'checked' : '' }}>
+                            <label for="document_{{ $document->id }}">{{ $document->title }}</label>
+                        </div>
+                    @endforeach
+                </div>
+                @error('documents')
+                <div class="form-error">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-actions">
