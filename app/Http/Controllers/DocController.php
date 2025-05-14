@@ -93,4 +93,13 @@ class DocController extends Controller
 
         return view('public.docs', compact('docs', 'sections', 'search'));
     }
+
+    public function AdminSearch(Request $request)
+    {
+        $search = $request->input('search');
+
+        $docs = Document::where('title', 'like', '%' . $search . '%')->get();
+
+        return view('admin.docs.index', compact('docs', 'search'));
+    }
 }

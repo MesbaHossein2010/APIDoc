@@ -62,7 +62,7 @@
     }
 
     .btn-action {
-        color: #6b7280; /* default gray */
+        color: #6b7280;
         transition: color 0.2s;
     }
 
@@ -73,15 +73,15 @@
     }
 
     .btn-view:hover {
-        color: #22c55e; /* green */
+        color: #22c55e;
     }
 
     .btn-edit:hover {
-        color: #f59e0b; /* amber */
+        color: #f59e0b;
     }
 
     .btn-delete:hover {
-        color: #ef4444; /* red */
+        color: #ef4444;
     }
 </style>
 
@@ -89,6 +89,11 @@
     @error('error')
     <span style="color: red">{{ $message }}</span>
     @enderror
+
+    @if(!isset($search))
+        @php($search = null)
+    @endif
+
     <div class="admin-header">
         <h1>Manage Sections</h1>
         <a href="{{ route('admin.sections.create') }}" class="btn-create">
@@ -104,44 +109,50 @@
     <table class="admin-table">
         <thead>
         <tr>
+            <form action="{{ route('admin.sections.index') }}" method="POST">
+                @csrf
+                <th>
+                    <input type="text" name="search" value="{{ $search }}" placeholder="Search title..."
+                           style="width: 100%; background-color: #121212; color: #e0e0e0; border: 1px solid #333; border-radius: 6px; padding: 0.4rem;">
+                </th>
+                <th colspan="2">
+                    <button type="submit"
+                            style="background-color: #2563eb; color: white; padding: 0.4rem 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
+                        Search
+                    </button>
+                </th>
+            </form>
+        </tr>
+        <tr>
             <th>Title</th>
-            <th>Document num</th>
-            <th>Last Updated</th>
+            <th>Document #</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         @foreach ($sections as $section)
             <tr>
-                <td>{{ $section->title }}</td>
-                <td>
-                    @if ($section->docs->isEmpty())
-                        <span class="no-docs">No documents available</span>
-                    @else
-                        {{ $section->docs->count() }}
-                    @endif
-                </td>
-                <td>{{ $section->updated_at->format('Y-m-d') }}</td>
+                <td>{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($section->title)) !!}</td>
+                <td>{{ $section->docs->count() == 0 ?'N/A': $section->docs->count() }}</td>
+                <!-- Or use $section->document->number if related -->
                 <td class="actions">
                     <div class="action-buttons">
-                        <!-- View Button -->
-                        <a href="{{ route('admin.sections.show', $section->id) }}" class="btn-action btn-view" title="View">
+                        <a href="{{ route('admin.sections.show', $section->id) }}" class="btn-action btn-view"
+                           title="View">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                 <circle cx="12" cy="12" r="3"></circle>
                             </svg>
                         </a>
-
-                        <!-- Edit Button -->
-                        <a href="{{ route('admin.sections.edit', $section->id) }}" class="btn-action btn-edit" title="Edit">
+                        <a href="{{ route('admin.sections.edit', $section->id) }}" class="btn-action btn-edit"
+                           title="Edit">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                             </svg>
                         </a>
-
-                        <!-- Delete Button -->
-                        <button type="button" class="btn-action btn-delete" title="Delete" onclick="location.href='{{ route('admin.sections.delete', $section->id) }}'"
+                        <button type="button" class="btn-action btn-delete" title="Delete"
+                                onclick="location.href='{{ route('admin.sections.delete', $section->id) }}'"
                                 style="background:none; border:none; padding:0;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M3 6h18"></path>

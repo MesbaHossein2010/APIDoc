@@ -16,6 +16,10 @@ use App\Http\Controllers\AuthController;
 |
 */
 
+// ----------------------
+// English Admin Routes
+// ----------------------
+
 Route::prefix('admin')->group(function () {
     // Authentication
     Route::get('login', [AuthController::class, 'showLogin'])->name('admin.showLogin');
@@ -29,6 +33,7 @@ Route::prefix('admin')->group(function () {
 
         // Docs Routes
         Route::get('docs', [DocController::class, 'AdminIndex'])->name('admin.docs.index');
+        Route::post('docs', [DocController::class, 'AdminSearch'])->name('admin.docs.search');
         Route::get('docs/create', [DocController::class, 'create'])->name('admin.docs.create');
         Route::post('docs/store', [DocController::class, 'store'])->name('admin.docs.store');
         Route::get('docs/{id}/edit', [DocController::class, 'edit'])->name('admin.docs.edit');
@@ -38,6 +43,7 @@ Route::prefix('admin')->group(function () {
 
         // Sections Routes
         Route::get('sections', [SectionController::class, 'AdminIndex'])->name('admin.sections.index');
+        Route::post('sections', [SectionController::class, 'AdminSearch'])->name('admin.sections.search');
         Route::get('sections/create', [SectionController::class, 'create'])->name('admin.sections.create');
         Route::post('sections/store', [SectionController::class, 'store'])->name('admin.sections.store');
         Route::get('sections/{id}/edit', [SectionController::class, 'edit'])->name('admin.sections.edit');
@@ -48,14 +54,17 @@ Route::prefix('admin')->group(function () {
 });
 
 // ----------------------
-// Public Routes
+// Public Routes (for both English and Persian)
 // ----------------------
 
-Route::get('/', [DocController::class, 'index'])->name('public.docs');
-Route::post('/', [DocController::class, 'search']);
+Route::get('/docs', [DocController::class, 'index'])->name('public.docs');
+Route::post('/docs', [DocController::class, 'search']);
+Route::get('/', function (){
+    redirect()->route('public.docs');
+});
 
 // ----------------------
-// Error Routes (for testing only)
+// Error Routes (for both English and Persian)
 // ----------------------
 
 Route::get('/simulate-404', fn () => abort(404))->name('error.404');

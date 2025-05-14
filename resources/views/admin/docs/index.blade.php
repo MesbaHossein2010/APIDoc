@@ -67,7 +67,7 @@
     }
 
     .btn-action {
-        color: #6b7280; /* default gray */
+        color: #6b7280;
         transition: color 0.2s;
     }
 
@@ -78,15 +78,15 @@
     }
 
     .btn-view:hover {
-        color: #22c55e; /* green */
+        color: #22c55e;
     }
 
     .btn-edit:hover {
-        color: #f59e0b; /* amber */
+        color: #f59e0b;
     }
 
     .btn-delete:hover {
-        color: #ef4444; /* red */
+        color: #ef4444;
     }
 </style>
 
@@ -94,11 +94,16 @@
     @if(!isset($section))
         @php($section = null)
     @endif
+    @if(!isset($search))
+        @php($search = null)
+    @endif
+
     @error('error')
-    <span style="color: red">{{$message}}</span>
+    <span style="color: red">{{ $message }}</span>
     @enderror
+
     <div class="admin-header">
-        <h1>{{ $section? "Manage documents related to\"$section->title\"":'Manage Documents' }}</h1>
+        <h1>{{ $section ? "Manage documents related to \"$section->title\"" : 'Manage Documents' }}</h1>
         @if(!$section)
             <a href="{{ route('admin.docs.create') }}" class="btn-create">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -115,6 +120,25 @@
 
     <table class="admin-table">
         <thead>
+        @if(!$section)
+            <tr>
+                <form action="{{ route('admin.docs.index') }}" method="POST">
+                    @csrf
+                    <th>
+                        <input type="text" name="search" value="{{ $search }}" placeholder="Search title..."
+                               style="width: 100%; background-color: #121212; color: #e0e0e0; border: 1px solid #333; border-radius: 6px; padding: 0.4rem;">
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <button type="submit"
+                                style="background-color: #2563eb; color: white; padding: 0.4rem 0.8rem; border: none; border-radius: 6px; cursor: pointer;">
+                            Search
+                        </button>
+                    </th>
+                </form>
+            </tr>
+        @endif
         <tr>
             <th>Title</th>
             <th>Section</th>
@@ -125,12 +149,11 @@
         <tbody>
         @foreach ($docs as $doc)
             <tr>
-                <td>{{ $doc->title }}</td>
-                <td>{!! $doc->section != null? $doc->section->title:'<span style="color: red;">No section selected</span>' !!}</td>
+                <td>{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</td>
+                <td>{!! $doc->section ? $doc->section->title : '<span style="color: red;">No section selected</span>' !!}</td>
                 <td>{{ $doc->updated_at->format('Y-m-d') }}</td>
                 <td class="actions">
                     <div class="action-buttons">
-                        <!-- View Button -->
                         <a href="{{ route('admin.docs.show', $doc->id) }}" class="btn-action btn-view" title="View">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -138,7 +161,6 @@
                             </svg>
                         </a>
 
-                        <!-- Edit Button -->
                         <a href="{{ route('admin.docs.edit', $doc->id) }}" class="btn-action btn-edit" title="Edit">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -146,14 +168,13 @@
                             </svg>
                         </a>
 
-                        <!-- Delete Button -->
                         <button type="button" class="btn-action btn-delete" title="Delete"
                                 onclick="location.href='{{ route('admin.docs.delete', $doc->id) }}'"
                                 style="background:none; border:none; padding:0;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                 <path d="M3 6h18"></path>
                                 <path
-                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                             </svg>
                         </button>
                     </div>

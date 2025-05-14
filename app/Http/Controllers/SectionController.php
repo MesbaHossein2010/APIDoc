@@ -6,6 +6,7 @@ use App\Http\Requests\SectionEditRequest;
 use App\Http\Requests\SectionStoreRequest;
 use App\Models\Document;
 use App\Models\Section;
+use Illuminate\Http\Request;
 
 class SectionController extends Controller
 {
@@ -14,7 +15,7 @@ class SectionController extends Controller
      */
     public function AdminIndex()
     {
-        $sections = Section::all();
+        $sections = Section::all()->sortBy('title');
         return view('admin.sections.index', compact('sections'));
     }
 
@@ -113,4 +114,12 @@ class SectionController extends Controller
         return redirect()->route('admin.sections.index');
     }
 
+    public function AdminSearch(Request $request)
+    {
+        $search = $request->input('search');
+
+        $sections = Section::where('title', 'like', '%' . $search . '%')->get();
+
+        return view('admin.sections.index', compact('sections', 'search'));
+    }
 }
