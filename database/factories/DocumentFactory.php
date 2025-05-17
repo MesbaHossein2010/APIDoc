@@ -42,7 +42,7 @@ class DocumentFactory extends Factory
 
         return [
             'title' => $this->faker->name(),
-            'slug' => $this->faker->slug(),
+            'slug' => $this->faker->slug(3),
             'content' => $htmlContent,
             'section_id' => $this->faker->numberBetween(1, Section::all()->count()),
             'created_at' => now(),
