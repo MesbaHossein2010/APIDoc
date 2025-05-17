@@ -1,11 +1,13 @@
 /* ===== Core Styles ===== */
-body {
+html, body {
+    direction: rtl;
+    text-align: right;
     background-color: #121212;
     color: #e0e0e0;
     font-family: system-ui, -apple-system, sans-serif;
     margin: 0;
     line-height: 1.6;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden;
 }
 
 a {
@@ -21,18 +23,26 @@ a:hover {
 /* ===== Layout ===== */
 .docs-layout {
     display: flex;
+    flex-direction: row-reverse;
     min-height: 100vh;
     gap: 1rem;
     padding: 0;
 }
 
-/* ===== Sidebar (220px) ===== */
+/* ===== Sidebar ===== */
 .sidebar {
     width: 220px;
     background: #1e1e1e;
-    border-right: 1px solid #2d2d2d;
+    border-left: 1px solid #2d2d2d;
     padding: 1rem;
     flex-shrink: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .sidebar-header {
@@ -45,11 +55,11 @@ a:hover {
     z-index: 10;
 }
 
-
 .sidebar-header h2 {
     margin: 0 0 0.5rem 0;
     font-size: 1.5rem;
     color: #fff;
+    text-align: center;
 }
 
 .sidebar-search {
@@ -61,6 +71,8 @@ a:hover {
     color: #fff;
     font-size: 0.9rem;
     margin-bottom: 1rem;
+    direction: ltr !important;
+    text-align: center !important;
 }
 
 .sidebar-search:focus {
@@ -75,13 +87,14 @@ a:hover {
     letter-spacing: 0.1em;
     margin: 2rem 0 0.5rem 0;
     color: #888;
-    padding-left: 0.5rem;
+    text-align: center;
 }
 
 .sidebar-menu {
     list-style: none;
     padding: 0;
     margin: 0;
+    text-align: center;
 }
 
 .sidebar-menu li {
@@ -94,6 +107,7 @@ a:hover {
     color: #ccc;
     border-radius: 6px;
     transition: all 0.2s ease;
+    text-align: center;
 }
 
 .sidebar-menu a:hover {
@@ -107,7 +121,6 @@ a:hover {
     font-weight: 500;
 }
 
-/* ===== Scroll Spy Stickiness (optional) ===== */
 .sidebar-nav {
     position: sticky;
     top: 6rem;
@@ -121,6 +134,10 @@ a:hover {
     padding: 1rem 1rem 3rem 1rem;
     max-width: 100%;
     overflow-x: hidden;
+    margin-right: 220px;
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .docs-article {
@@ -155,16 +172,20 @@ a:hover {
     border-bottom: 1px solid #2d2d2d;
 }
 
+.docs-article h1,
+.docs-article h2,
+.docs-article h3 {
+    color: #fff;
+}
+
 .docs-article h1 {
     font-size: 2rem;
     margin-top: 0;
-    color: #fff;
 }
 
 .docs-article h2 {
     font-size: 1.5rem;
     margin: 2rem 0 1rem 0;
-    color: #fff;
     border-bottom: 1px solid #2d2d2d;
     padding-bottom: 0.5rem;
 }
@@ -172,7 +193,6 @@ a:hover {
 .docs-article h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #fff;
 }
 
 /* ===== Content Elements ===== */
@@ -181,25 +201,114 @@ a:hover {
 }
 
 ul, ol {
-    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-left: 0;
     margin: 1rem 0 2rem 0;
+    text-align: right;
 }
 
-pre {
-    background: #1e1e1e;
-    padding: 1rem;
-    border-radius: 6px;
-    overflow-x: auto;
-    border: 1px solid #2d2d2d;
-    margin-bottom: 2.5rem;
+.sidebar ul,
+.sidebar ol {
+    padding: 0;
+    margin: 1rem 0 2rem 0;
+    list-style-position: inside;
+    text-align: center;
 }
 
-code {
+input, textarea, select {
+    direction: rtl;
+    text-align: right;
+}
+
+.sidebar input,
+.sidebar textarea,
+.sidebar select {
+    text-align: center !important;
+    direction: ltr !important;
+}
+
+/* ===== Inline and Block Code ===== */
+
+/* Inline code inside docs content */
+.docs-content code {
     font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    color: #e0e0e0;
+    font-size: 0.95rem;
+    color: #80bfff; /* soft blue for inline code */
+    background-color: #262626; /* slightly lighter than background */
+    padding: 0.2em 0.4em;
+    border-radius: 5px;
+    white-space: nowrap;
+    user-select: text;
+    transition: background-color 0.2s ease;
+    outline: none !important;
+    box-shadow: none !important;
+    border: 1px solid #333;
+    direction: ltr;
+    text-align: left;
 }
 
+/* Inline code hover */
+.docs-content code:hover {
+    background-color: #333;
+}
+
+/* Block code styling */
+.docs-content pre {
+    background: #1c1c1c;
+    padding: 1.25rem 1.5rem;
+    border-radius: 10px;
+    overflow-x: auto;
+    border: 1px solid #2b2b2b;
+    margin-bottom: 2.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    color: #d0d0d0;
+    line-height: 1.6;
+    position: relative;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+
+    direction: ltr;         /* Keep code readable */
+    text-align: left;       /* Align text to left inside the block */
+    margin-left: auto;      /* Visually align to the right in RTL layout */
+    margin-right: 0;
+}
+
+/* Code inside block (inherits styling, removes unwanted outline/shadow) */
+.docs-content pre code {
+    color: inherit;
+    background: none;
+    font-size: inherit;
+    font-family: inherit;
+    white-space: pre;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    direction: ltr;
+    text-align: left;
+}
+
+/* Focus and accessibility states */
+pre code:focus,
+pre:focus,
+pre code:focus-visible,
+pre:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Custom scrollbar inside code blocks */
+.docs-content pre::-webkit-scrollbar {
+    height: 8px;
+}
+
+.docs-content pre::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+}
+
+
+/* ===== Tables ===== */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -211,7 +320,7 @@ table {
 table th, table td {
     padding: 0.75rem;
     border: 1px solid #2d2d2d;
-    text-align: left;
+    text-align: right;
 }
 
 table th {
@@ -231,16 +340,28 @@ table th {
     border-radius: 4px;
 }
 
+.sidebar::-webkit-scrollbar-track,
+.docs-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar,
+.docs-content {
+    scrollbar-width: thin;
+    scrollbar-color: #2d2d2d transparent;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .docs-layout {
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
     .sidebar {
         width: 100%;
         height: auto;
         position: static;
+        border-left: none;
         border-right: none;
         padding: 1rem;
     }
@@ -248,6 +369,9 @@ table th {
     .docs-content {
         max-width: 100%;
         padding: 1rem;
+        margin-right: 0;
+        height: auto;
+        overflow: visible;
     }
 }
 
@@ -256,30 +380,7 @@ html {
     scroll-behavior: smooth;
 }
 
-.sidebar::-webkit-scrollbar,
-.docs-content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.sidebar::-webkit-scrollbar-track,
-.docs-content::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.sidebar::-webkit-scrollbar-thumb,
-.docs-content::-webkit-scrollbar-thumb {
-    background-color: #2d2d2d;
-    border-radius: 4px;
-    border: 1px solid #444;
-}
-
-/* Firefox */
-.sidebar,
-.docs-content {
-    scrollbar-width: thin;
-    scrollbar-color: #2d2d2d transparent;
-}
-
+/* ===== Cancel Search Button ===== */
 .cancel-search-btn {
     display: inline-block;
     margin-top: 8px;

@@ -1,6 +1,10 @@
 @extends('layouts.base')
 
-@section('title', 'API Documentation')
+@section('title', 'مستندات API')
+
+<style>
+
+</style>
 
 @section('content')
     @if(!isset($search))
@@ -13,17 +17,16 @@
         <!-- Slim Sidebar (220px) -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>API Docs</h2>
+                <h2>مستندات API</h2>
                 <form method="post">
                     @csrf
-                    <input name="search" type="text" class="sidebar-search" placeholder="Search..." aria-label="Search documentation" value="{{ $search }}">
+                    <input name="search" type="text" class="sidebar-search" placeholder="جستجو..." aria-label="جستجوی مستندات" value="{{ $search }}">
                     <input type="submit" hidden="">
 
                     @if($search)
-                        <a href="" class="cancel-search-btn">✕ Cancel</a>
+                        <a href="" class="cancel-search-btn">✕ لغو</a>
                     @endif
                 </form>
-
             </div>
             <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
@@ -46,8 +49,6 @@
         <!-- Documentation Content (with scroll demo) -->
         <main class="docs-content">
             <article class="docs-article">
-                <h1>API Documentation</h1>
-
                 @foreach($sections as $section)
                     @if(count($section->docs))
                         <div class="section-wrapper">
@@ -65,11 +66,11 @@
                     @endif
                 @endforeach
 
-
             </article>
         </main>
     </div>
 @endsection
+
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
