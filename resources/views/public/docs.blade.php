@@ -2,6 +2,60 @@
 
 @section('title', 'API Documentation')
 
+<style>
+    /* Inline code inside docs content */
+    .docs-content code {
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        color: #80bfff; /* soft blue for inline code */
+        background-color: #252525; /* dark background matching sidebar-search */
+        padding: 0.15em 0.3em;
+        border-radius: 4px;
+        white-space: nowrap;
+        user-select: text;
+        transition: background-color 0.2s ease;
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .docs-content code:hover {
+        background-color: #333; /* slightly lighter on hover */
+    }
+
+    /* Preformatted code blocks */
+    .docs-content pre {
+        background: #1e1e1e; /* same as your pre background */
+        padding: 1rem;
+        border-radius: 6px;
+        overflow-x: auto;
+        border: 1px solid #2d2d2d;
+        margin-bottom: 2.5rem;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        color: #80bfff; /* soft blue consistent with inline code */
+        line-height: 1.4;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Remove outline and shadow for code inside pre, including focus */
+    pre code {
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    pre code:focus,
+    pre:focus,
+    pre code:focus-visible,
+    pre:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+</style>
+
 @section('content')
     @if(!isset($search))
         @php($search = null)
@@ -23,7 +77,6 @@
                         <a href="" class="cancel-search-btn">✕ Cancel</a>
                     @endif
                 </form>
-
             </div>
             <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
@@ -65,11 +118,11 @@
                     @endif
                 @endforeach
 
-
             </article>
         </main>
     </div>
 @endsection
+
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
