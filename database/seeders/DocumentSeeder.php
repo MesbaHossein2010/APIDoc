@@ -11,8 +11,17 @@ class DocumentSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    // In your DocumentSeeder.php
+    public function run()
     {
-        Document::factory()->count(500)->create();
+        // Create in smaller batches
+        $batchSize = 50; // Process 50 records at a time
+        $totalRecords = 500;
+
+        for ($i = 0; $i < $totalRecords; $i += $batchSize) {
+            Document::factory()
+                ->count(min($batchSize, $totalRecords - $i))
+                ->create();
+        }
     }
 }

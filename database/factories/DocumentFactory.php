@@ -4,48 +4,43 @@ namespace Database\Factories;
 
 use App\Models\Section;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Provider\fa_IR\Person;
+use Faker\Provider\fa_IR\Address;
+use Faker\Provider\fa_IR\PhoneNumber;
+use Faker\Provider\fa_IR\Company;
+use Faker\Provider\fa_IR\Text;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Document>
- */
 class DocumentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
-        $htmlSnippets = [
-            "<b>{$this->faker->word}</b>",
-            '<br>',
-            '<br>',
-            '<br>',
-            '<br>',
-            '<br>',
-            '<br>',
-            '<br>',
-            "<i>{$this->faker->word}</i>",
-            "<a href=\"{$this->faker->url}\">{$this->faker->word}</a>",
-            "<code>{$this->faker->sentence}</code>",
-            "<pre><code>{$this->faker->paragraph}</code></pre>",
-            "<strong>{$this->faker->sentence}</strong>",
-            "<em>{$this->faker->sentence}</em>",
-            "<u>{$this->faker->word}</u>",
-            "<span style=\"color:red\">{$this->faker->word}</span>",
-        ];
+        $faker = \Faker\Factory::create('fa_IR');
+        $faker->addProvider(new Person($faker));
+        $faker->addProvider(new Address($faker));
+        $faker->addProvider(new PhoneNumber($faker));
+        $faker->addProvider(new Company($faker));
+        $faker->addProvider(new Text($faker));
 
-        // Shuffle and join a few snippets together
-        shuffle($htmlSnippets);
-        $htmlContent = implode(' ', $htmlSnippets);
+        // Generate rich Persian content
+        $persianParagraphs = [];
+        for ($i = 0; $i < rand(2, 5); $i++) {
+            $persianParagraphs[] = "<p>{$faker->realText(rand(200, 500))}</p>";
+        }
+
+        $htmlContent = implode("\n", [
+            "<h2>{$faker->sentence(4)}</h2>",
+            ...$persianParagraphs,
+            "<ul>" . implode('', array_map(fn() => "<li>{$faker->sentence(6)}</li>", range(1, rand(3, 7)))) . "</ul>",
+            "<blockquote>{$faker->sentence(10)}</blockquote>",
+            "<p>{$faker->realText(300)}</p>"
+        ]);
 
         return [
-            'title' => $this->faker->name(),
-            'slug' => $this->faker->slug(),
+            'title' => $faker->sentence(3),
+            'slug' => $faker->unique()->slug(3),
             'content' => $htmlContent,
-            'section_id' => $this->faker->numberBetween(1, Section::all()->count()),
-            'created_at' => now(),
+            'section_id' => Section::inRandomOrder()->value('id') ?? Section::factory(),
+            'created_at' => $faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => now(),
             'user_id' => 'admin'
         ];
