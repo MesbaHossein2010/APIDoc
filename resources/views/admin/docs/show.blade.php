@@ -15,7 +15,7 @@
         <div style="color: #666; font-size: 14px; margin-bottom: 16px;">
             <strong>Slug:</strong> {{ $doc->slug }}
             <br>
-            <strong>Section:</strong> {{ $doc->section->title }}
+            <strong>Section:</strong> {!! $doc->section == null?'<strong style="color: red;">No section selected</strong>':$doc->section->title !!}
         </div>
 
         <article class="doc-content">
