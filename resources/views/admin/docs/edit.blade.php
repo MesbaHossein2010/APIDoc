@@ -10,7 +10,6 @@
 
         <form method="POST" action="{{ route('admin.docs.update', $doc->id) }}">
             @csrf
-            @method('PUT')
 
             <div class="form-row">
                 <label for="title" class="form-label">عنوان سند</label>

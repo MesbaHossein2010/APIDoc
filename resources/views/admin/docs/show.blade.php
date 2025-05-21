@@ -15,7 +15,7 @@
         <div style="color: #aaa; font-size: 14px; margin-bottom: 16px;">
             <strong>پیوند یکتا:</strong> {{ $doc->slug }}
             <br>
-            <strong>بخش:</strong> {{ $doc->section->title ?? 'بدون بخش' }}
+            <strong>بخش:</strong> {!! $doc->section->title ?? '<strong style="color: red">بدون بخش</strong>' !!}
         </div>
 
         <article class="doc-content" style="line-height: 1.8; font-size: 16px; color: #e0e0e0; background: #1f1f1f; padding: 24px; border-radius: 12px;">
