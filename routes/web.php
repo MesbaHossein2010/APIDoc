@@ -20,7 +20,7 @@ use App\Http\Controllers\AuthController;
 // English Admin Routes
 // ----------------------
 
-Route::prefix('admin')->group(function () {
+Route::prefix('site-admin')->group(function () {
     // Authentication
     Route::get('login', [AuthController::class, 'showLogin'])->name('admin.showLogin');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login');
@@ -60,7 +60,7 @@ Route::prefix('admin')->group(function () {
 Route::get('/docs', [DocController::class, 'index'])->name('public.docs');
 Route::post('/docs', [DocController::class, 'search']);
 Route::get('/', function (){
-    redirect()->route('public.docs');
+    return redirect()->route('public.docs');
 });
 
 // ----------------------
