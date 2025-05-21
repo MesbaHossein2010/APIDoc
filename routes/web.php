@@ -60,7 +60,7 @@ Route::prefix('site-admin')->group(function () {
 Route::get('/docs', [DocController::class, 'index'])->name('public.docs');
 Route::post('/docs', [DocController::class, 'search']);
 Route::get('/', function (){
-    redirect()->route('public.docs');
+    return redirect()->route('public.docs');
 });
 
 // ----------------------

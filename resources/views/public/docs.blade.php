@@ -99,7 +99,6 @@
         <!-- Documentation Content (with scroll demo) -->
         <main class="docs-content">
             <article class="docs-article">
-                <h1>API Documentation</h1>
 
                 @foreach($sections as $section)
                     @if(count($section->docs))
