@@ -1,9 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Create Document')
+@section('title', 'ایجاد سند')
 
 <style>
-    /* Dark Mode Styles */
     body {
         background-color: #121212;
         color: #e0e0e0;
@@ -44,7 +43,7 @@
     }
 
     .form-input:focus {
-        border-color: #4f46e5; /* Indigo */
+        border-color: #4f46e5;
         outline: none;
     }
 
@@ -55,7 +54,7 @@
     }
 
     .form-error {
-        color: #dc2626; /* Red */
+        color: #dc2626;
         font-size: 0.875rem;
         margin-top: -0.5rem;
         margin-bottom: 1rem;
@@ -93,7 +92,6 @@
         background-color: #555;
     }
 
-    /* CKEditor content area */
     .ck-editor__editable_inline {
         min-height: 250px;
         border-radius: 8px;
@@ -102,7 +100,6 @@
         color: #ffffff !important;
     }
 
-    /* CKEditor Toolbar - Dark Mode */
     .ck.ck-toolbar {
         background-color: #444 !important;
         border-color: #555 !important;
@@ -121,7 +118,6 @@
         background-color: #4f46e5 !important;
     }
 
-    /* Additional CKEditor styling for dark mode */
     .ck-content {
         background-color: #333 !important;
         color: #fff !important;
@@ -144,32 +140,32 @@
 @section('content')
     <div class="form-container">
         <div class="form-header">
-            <h2>Create New Document</h2>
+            <h2>ایجاد سند جدید</h2>
         </div>
 
         <form action="{{ route('admin.docs.store') }}" method="POST">
             @csrf
 
             <div class="form-row">
-                <label for="title" class="form-label">Document Title</label>
-                <input type="text" id="title" name="title" class="form-input" placeholder="e.g. API Reference" value="{{ old('title') }}">
+                <label for="title" class="form-label">عنوان سند</label>
+                <input type="text" id="title" name="title" class="form-input" placeholder="مثلاً: مستندات API" value="{{ old('title') }}">
                 @error('title')
                 <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="form-row">
-                <label for="slug" class="form-label">URL Slug</label>
-                <input type="text" id="slug" name="slug" class="form-input" placeholder="e.g. api-reference" value="{{ old('slug') }}">
+                <label for="slug" class="form-label">اسلاگ آدرس</label>
+                <input type="text" id="slug" name="slug" class="form-input" placeholder="مثلاً: api-reference" value="{{ old('slug') }}">
                 @error('slug')
                 <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="form-row">
-                <label for="section_id" class="form-label">Section</label>
+                <label for="section_id" class="form-label">بخش مربوطه</label>
                 <select name="section_id" id="section_id" class="form-input">
-                    <option value="0">-- No section --</option>
+                    <option value="0">-- بدون بخش --</option>
                     @foreach ($sections as $section)
                         <option value="{{ $section->id }}" {{ old('section_id') == $section->id ? 'selected' : '' }}>
                             {{ $section->title }}
@@ -182,7 +178,7 @@
             </div>
 
             <div class="form-row">
-                <label for="content" class="form-label">Content</label>
+                <label for="content" class="form-label">محتوا</label>
                 <textarea id="content" name="content" class="form-input form-textarea">{{ old('content') }}</textarea>
                 @error('content')
                 <p class="form-error">{{ $message }}</p>
@@ -196,9 +192,9 @@
                         <polyline points="17 21 17 13 7 13 7 21"/>
                         <polyline points="7 3 7 8 15 8"/>
                     </svg>
-                    Create Document
+                    ایجاد سند
                 </button>
-                <a href="{{ route('admin.docs.index') }}" class="btn-form btn-cancel">Cancel</a>
+                <a href="{{ route('admin.docs.index') }}" class="btn-form btn-cancel">انصراف</a>
             </div>
         </form>
     </div>
@@ -216,6 +212,8 @@
 
             CKEDITOR.ClassicEditor
                 .create(editorTarget, {
+                    language: 'fa', // Optional: CKEditor UI in Persian if supported
+                    contentsLangDirection: 'rtl', // Makes editor content RTL
                     toolbar: {
                         items: [
                             'heading', '|',
@@ -235,6 +233,12 @@
                         'DocumentOutline', 'TableOfContents', 'FormatPainter',
                         'Template', 'SlashCommand', 'PasteFromOfficeEnhanced'
                     ]
+                })
+                .then(editor => {
+                    // Optional: enforce direction inside editable area
+                    editor.editing.view.change(writer => {
+                        writer.setAttribute('dir', 'rtl', editor.editing.view.document.getRoot());
+                    });
                 })
                 .catch(error => {
                     console.error('CKEditor init failed:', error);

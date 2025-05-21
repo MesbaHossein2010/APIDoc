@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Admin Panel</title>
+    <title>ورود | پنل مدیریت</title>
     <style>
-        /* ===== BASE STYLES ===== */
         body {
             background: #121212;
             color: #e0e0e0;
@@ -19,7 +18,6 @@
             padding: 1rem;
         }
 
-        /* ===== LOGIN CARD ===== */
         .login-card {
             background: #1e1e1e;
             border-radius: 8px;
@@ -46,7 +44,6 @@
             margin: 0;
         }
 
-        /* ===== FORM STYLES ===== */
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -77,21 +74,6 @@
             box-shadow: 0 0 0 3px rgba(128, 191, 255, 0.15);
         }
 
-        /* ===== REMEMBER ME ===== */
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .remember-me input {
-            width: 16px;
-            height: 16px;
-            accent-color: #80bfff;
-        }
-
-        /* ===== LOGIN BUTTON ===== */
         .login-btn {
             width: 100%;
             padding: 0.875rem;
@@ -112,51 +94,45 @@
             box-shadow: 0 4px 8px rgba(128, 191, 255, 0.2);
         }
 
-        /* ===== FOOTER LINKS ===== */
-        .login-footer {
+        strong {
+            display: block;
+            color: red;
             text-align: center;
-            color: #b0b0b0;
-            font-size: 0.9rem;
-        }
-
-        .login-footer a {
-            color: #80bfff;
-            text-decoration: none;
-        }
-
-        .login-footer a:hover {
-            text-decoration: underline;
+            margin-top: 0.5rem;
         }
     </style>
 </head>
 <body>
 <div class="login-card">
     <div class="login-header">
-        <h1>Welcome Back</h1>
-        <p>Sign in to your admin account</p>
+        <h1>خوش آمدید</h1>
+        <p>لطفاً وارد حساب مدیریت خود شوید</p>
     </div>
 
     <form autocomplete="off" method="post">
         @csrf
+
         <div class="form-group">
-            <label for="username" class="form-label">Username</label>
-            <input name="username" type="text" id="Username" class="form-input" placeholder="Username..." required>
+            <label for="username" class="form-label">نام کاربری</label>
+            <input name="username" type="text" id="username" class="form-input" placeholder="نام کاربری..." required>
             @error('username')
-            <strong style="color: red; text-align: center">{{$message}}</strong>
+            <strong>{{ $message }}</strong>
             @enderror
         </div>
+
         <div class="form-group">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label">رمز عبور</label>
             <input name="password" type="password" id="password" class="form-input" placeholder="••••••••" required>
             @error('password')
-            <strong style="color: red; text-align: center">{{$message}}</strong>
+            <strong>{{ $message }}</strong>
             @enderror
         </div>
+
         @error('403')
-        <strong style="color: red; text-align: center">{{$message}}</strong>
+        <strong>{{ $message }}</strong>
         @enderror
 
-        <button type="submit" class="login-btn">Sign In</button>
+        <button type="submit" class="login-btn">ورود به پنل</button>
     </form>
 </div>
 </body>

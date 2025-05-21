@@ -46,8 +46,8 @@ class DocumentFactory extends Factory
         $htmlContent = implode(' ', $htmlSnippets);
 
         return [
-            'title' => $this->persianFaker->realText(30),
-            'slug' => $this->faker->slug(),
+            'title' => $this->persianFaker->name(),
+            'slug' => $this->faker->slug(3),
             'content' => $htmlContent,
             'section_id' => $this->faker->numberBetween(1, Section::count()),
             'created_at' => now(),

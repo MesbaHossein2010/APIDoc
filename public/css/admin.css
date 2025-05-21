@@ -1,8 +1,10 @@
-/* ===== ADMIN BASE STYLES ===== */
-body.admin {
+/* ===== RTL + PERSIAN SUPPORT ===== */
+html[lang="fa"], body.admin {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Vazirmatn', 'IRANSans', 'Tahoma', sans-serif;
     background: #121212;
     color: #e0e0e0;
-    font-family: 'Inter', -apple-system, sans-serif;
     margin: 0;
     line-height: 1.6;
 }
@@ -18,7 +20,7 @@ body.admin {
     background: #1a1a1a;
     position: fixed;
     height: 100vh;
-    border-right: 1px solid #2d2d2d;
+    border-left: 1px solid #2d2d2d;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -57,11 +59,7 @@ body.admin {
     transition: all 0.2s;
 }
 
-.sidebar-nav a:hover {
-    background: #2d2d2d;
-    color: #80bfff;
-}
-
+.sidebar-nav a:hover,
 .sidebar-nav a.active {
     background: #2d2d2d;
     color: #80bfff;
@@ -82,7 +80,7 @@ body.admin {
 
 /* ===== MAIN CONTENT ===== */
 .admin-main {
-    margin-left: 220px;
+    margin-right: 220px;
     flex: 1;
     background: #121212;
 }
@@ -123,7 +121,7 @@ body.admin {
     background: #252525;
     color: #fff;
     padding: 1rem;
-    text-align: left;
+    text-align: right;
     font-weight: 600;
 }
 
@@ -273,6 +271,7 @@ body.admin {
     color: #e0e0e0;
     font-weight: 500;
     font-size: 0.95rem;
+    text-align: right;
 }
 
 .form-input {
@@ -285,6 +284,7 @@ body.admin {
     font-family: inherit;
     font-size: 0.95rem;
     transition: all 0.25s ease;
+    text-align: right;
 }
 
 .form-input:focus {
@@ -303,6 +303,7 @@ body.admin {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    flex-direction: row-reverse;
 }
 
 .form-check-input {
@@ -375,10 +376,12 @@ body.admin {
         width: 100%;
         height: auto;
         position: static;
+        border-left: none;
+        border-bottom: 1px solid #2d2d2d;
     }
 
     .admin-main {
-        margin-left: 0;
+        margin-right: 0;
     }
 
     .admin-header {
@@ -395,6 +398,7 @@ body.admin {
         width: 100%;
     }
 }
+
 /* ===== CODE BLOCK STYLES ===== */
 .doc-content code {
     background-color: #1e1e1e;

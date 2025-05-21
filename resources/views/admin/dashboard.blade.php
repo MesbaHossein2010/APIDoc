@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard')
+@section('title', 'داشبورد')
 
 <style>
     .dashboard-header {
@@ -48,19 +48,20 @@
         font-weight: bold;
     }
 </style>
+
 @section('content')
     <div class="dashboard-header">
-        <h1 class="dashboard-title">Welcome back, Admin!</h1>
-        <p class="dashboard-subtitle">Here's a quick overview of your content.</p>
+        <h1 class="dashboard-title">خوش آمدید، مدیر!</h1>
+        <p class="dashboard-subtitle">در یک نگاه کلی محتوای خود را بررسی کنید.</p>
     </div>
 
     <div class="dashboard-cards">
         <div class="dashboard-card">
-            <h3 class="card-title">Total Documents</h3>
+            <h3 class="card-title">تعداد مستندات</h3>
             <p class="card-value">{{ $DocsNum }}</p>
         </div>
         <div class="dashboard-card">
-            <h3 class="card-title">Sections</h3>
+            <h3 class="card-title">تعداد بخش‌ها</h3>
             <p class="card-value">{{ $SectionsNum }}</p>
         </div>
     </div>

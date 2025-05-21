@@ -1,42 +1,42 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Document')
+@section('title', 'ویرایش سند')
 
 @section('content')
     <div class="form-container">
         <div class="form-header">
-            <h2>Edit</h2>
+            <h2>ویرایش سند</h2>
         </div>
 
         <form method="POST" action="{{ route('admin.docs.update', $doc->id) }}">
             @csrf
+            @method('PUT')
 
             <div class="form-row">
-                <label for="title" class="form-label">Document Title</label>
+                <label for="title" class="form-label">عنوان سند</label>
                 <input name="title" value="{{ $doc->title }}" type="text" id="title" class="form-input"
-                       placeholder="e.g. API Reference">
+                       placeholder="مثلاً: مستندات API">
                 @error('title')
                 <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="form-row">
-                <label for="slug" class="form-label">URL Slug</label>
+                <label for="slug" class="form-label">اسلاگ آدرس</label>
                 <input name="slug" value="{{ $doc->slug }}" type="text" id="slug" class="form-input"
-                       placeholder="e.g. api-reference">
+                       placeholder="مثلاً: api-reference">
                 @error('slug')
                 <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="form-row">
-                <label for="section_id" class="form-label">Section</label>
+                <label for="section_id" class="form-label">بخش</label>
                 <select name="section_id" id="section_id" class="form-input">
-                    <option value="0">-- No section --</option>
+                    <option value="0">-- بدون بخش --</option>
                     @foreach ($sections as $section)
-                        <option value="{{ $section->id }}" @if($doc->section != null)
-                            {{ $doc->section->id == $section->id ? 'selected' : ''  }}
-                            @endif >
+                        <option value="{{ $section->id }}"
+                            {{ $doc->section && $doc->section->id == $section->id ? 'selected' : '' }}>
                             {{ $section->title }}
                         </option>
                     @endforeach
@@ -47,9 +47,9 @@
             </div>
 
             <div class="form-row">
-                <label for="content" class="form-label">Content</label>
+                <label for="content" class="form-label">محتوا</label>
                 <textarea name="content" id="content" class="form-input form-textarea"
-                          placeholder="Enter section content">{{ old('content', $doc->content) }}</textarea>
+                          placeholder="محتوای سند را وارد کنید">{{ old('content', $doc->content) }}</textarea>
                 @error('content')
                 <p class="form-error">{{ $message }}</p>
                 @enderror
@@ -57,17 +57,15 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn-form btn-save">
-                    <!-- SVG omitted for brevity -->
-                    Edit Document
+                    ویرایش سند
                 </button>
-                <a href="{{ route('admin.docs.index') }}" class="btn-form btn-cancel">Cancel</a>
+                <a href="{{ route('admin.docs.index') }}" class="btn-form btn-cancel">انصراف</a>
             </div>
         </form>
     </div>
 @endsection
 
 <style>
-    /* Dark Mode Styles */
     body {
         background-color: #121212;
         color: #e0e0e0;
@@ -108,7 +106,7 @@
     }
 
     .form-input:focus {
-        border-color: #4f46e5; /* Indigo */
+        border-color: #4f46e5;
         outline: none;
     }
 
@@ -119,7 +117,7 @@
     }
 
     .form-error {
-        color: #dc2626; /* Red */
+        color: #dc2626;
         font-size: 0.875rem;
         margin-top: -0.5rem;
         margin-bottom: 1rem;
@@ -157,7 +155,6 @@
         background-color: #555;
     }
 
-    /* CKEditor content area */
     .ck-editor__editable_inline {
         min-height: 250px;
         border-radius: 8px;
@@ -166,7 +163,6 @@
         color: #ffffff !important;
     }
 
-    /* CKEditor Toolbar - Dark Mode */
     .ck.ck-toolbar {
         background-color: #444 !important;
         border-color: #555 !important;
@@ -185,7 +181,6 @@
         background-color: #4f46e5 !important;
     }
 
-    /* Additional CKEditor styling for dark mode */
     .ck-content {
         background-color: #333 !important;
         color: #fff !important;
@@ -217,6 +212,8 @@
 
             CKEDITOR.ClassicEditor
                 .create(editorTarget, {
+                    language: 'fa', // Optional: CKEditor UI in Persian if supported
+                    contentsLangDirection: 'rtl', // Makes editor content RTL
                     toolbar: {
                         items: [
                             'heading', '|',
@@ -236,6 +233,12 @@
                         'DocumentOutline', 'TableOfContents', 'FormatPainter',
                         'Template', 'SlashCommand', 'PasteFromOfficeEnhanced'
                     ]
+                })
+                .then(editor => {
+                    // Optional: enforce direction inside editable area
+                    editor.editing.view.change(writer => {
+                        writer.setAttribute('dir', 'rtl', editor.editing.view.document.getRoot());
+                    });
                 })
                 .catch(error => {
                     console.error('CKEditor init failed:', error);
