@@ -20,7 +20,7 @@ use App\Http\Controllers\AuthController;
 // English Admin Routes
 // ----------------------
 
-Route::prefix('admin')->group(function () {
+Route::prefix('site-admin')->group(function () {
     // Authentication
     Route::get('login', [AuthController::class, 'showLogin'])->name('admin.showLogin');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login');
