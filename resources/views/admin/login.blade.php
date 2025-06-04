@@ -3,137 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ورود | پنل مدیریت</title>
+    <title>ورود به پنل مدیریت</title>
     <style>
-        body {
-            background: #121212;
-            color: #e0e0e0;
-            font-family: 'Inter', -apple-system, sans-serif;
+        :root {
+            --bg-dark: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #2d2d2d;
+            --text-light: #e0e0e0;
+            --text-white: #ffffff;
+            --primary-blue: #80bfff;
+            --primary-hover: #a0d2ff;
+            --input-bg: #252525;
+            --input-border: #3a3a3a;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Inter', -apple-system, sans-serif;
             line-height: 1.6;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 32rem;  /* Increased from 28rem to make wider */
             padding: 1rem;
         }
 
         .login-card {
-            background: #1e1e1e;
-            border-radius: 8px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
             padding: 2.5rem;
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
             width: 100%;
-            max-width: 400px;
-            border: 1px solid #2d2d2d;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .login-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
-        .login-header h1 {
-            margin: 0 0 0.5rem 0;
-            color: #fff;
-            font-size: 1.75rem;
-        }
-
-        .login-header p {
-            color: #b0b0b0;
-            margin: 0;
-        }
-
-        .form-group {
+        .login-title {
+            color: var(--text-white);
+            font-size: 1.35rem;
+            font-weight: 400;
             margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #e0e0e0;
-            font-weight: 500;
+            color: var(--text-light);
             font-size: 0.95rem;
+            font-weight: 400;
         }
 
         .form-input {
             width: 100%;
-            padding: 0.875rem;
-            background: #252525;
-            border: 1px solid #3a3a3a;
-            border-radius: 6px;
-            color: #fff;
+            padding: 0.875rem 1rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 0.375rem;
+            color: var(--text-white);
             font-family: inherit;
             font-size: 0.95rem;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
         }
 
         .form-input:focus {
             outline: none;
-            border-color: #80bfff;
+            border-color: var(--primary-blue);
             box-shadow: 0 0 0 3px rgba(128, 191, 255, 0.15);
         }
 
-        .login-btn {
+        .submit-btn {
             width: 100%;
             padding: 0.875rem;
-            background: #80bfff;
-            color: #121212;
+            background-color: var(--primary-blue);
+            color: var(--bg-dark);
             border: none;
-            border-radius: 6px;
+            border-radius: 0.375rem;
             font-weight: 500;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 1.5rem;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
         }
 
-        .login-btn:hover {
-            background: #a0d2ff;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(128, 191, 255, 0.2);
+        .submit-btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
         }
 
-        strong {
-            display: block;
-            color: red;
-            text-align: center;
-            margin-top: 0.5rem;
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.5rem;
+            }
+
+            .login-title {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
-<div class="login-card">
-    <div class="login-header">
-        <h1>خوش آمدید</h1>
-        <p>لطفاً وارد حساب مدیریت خود شوید</p>
+<div class="login-wrapper">
+    <div class="login-card">
+        <header class="login-header">
+            <h1 class="login-title">لطفاً برای ورود نام کاربری و رمز عبور را وارد کنید</h1>
+        </header>
+
+        <form class="login-form" autocomplete="off" method="post">
+            @csrf
+
+            <div class="form-field">
+                <label for="username" class="form-label">نام کاربری</label>
+                <input type="text" id="username" name="username" class="form-input" placeholder="نام کاربری" required>
+            </div>
+
+            <div class="form-field">
+                <label for="password" class="form-label">رمز عبور</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="رمز عبور" required>
+            </div>
+
+            <button type="submit" class="submit-btn">ورود به پنل</button>
+        </form>
     </div>
-
-    <form autocomplete="off" method="post">
-        @csrf
-
-        <div class="form-group">
-            <label for="username" class="form-label">نام کاربری</label>
-            <input name="username" type="text" id="username" class="form-input" placeholder="نام کاربری..." required>
-            @error('username')
-            <strong>{{ $message }}</strong>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label for="password" class="form-label">رمز عبور</label>
-            <input name="password" type="password" id="password" class="form-input" placeholder="••••••••" required>
-            @error('password')
-            <strong>{{ $message }}</strong>
-            @enderror
-        </div>
-
-        @error('403')
-        <strong>{{ $message }}</strong>
-        @enderror
-
-        <button type="submit" class="login-btn">ورود به پنل</button>
-    </form>
 </div>
 </body>
 </html>

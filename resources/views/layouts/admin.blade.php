@@ -23,8 +23,8 @@
             </div>
             <nav class="sidebar-nav">
                 <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">داشبورد</a>
-                <a href="{{ route('admin.docs.index') }}" class="{{ request()->routeIs('admin.docs.*') ? 'active' : '' }}">مستندات</a>
                 <a href="{{ route('admin.sections.index') }}" class="{{ request()->routeIs('admin.sections.*') ? 'active' : '' }}">بخش‌ها</a>
+                <a href="{{ route('admin.docs.index') }}" class="{{ request()->routeIs('admin.docs.*') ? 'active' : '' }}">مستندات</a>
                 <a href="{{ url('/') }}" target="_blank">مشاهده سایت</a>
             </nav>
         </div>
