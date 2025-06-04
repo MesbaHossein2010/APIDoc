@@ -32,8 +32,14 @@ class SectionStoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'The section title is required.',
-            'documents.*.exists' => 'The selected document(s) must exist in the database.',
+            // Title messages
+            'title.required' => 'عنوان بخش الزامی است.',
+            'title.string'   => 'عنوان بخش باید به صورت متن باشد.',
+            'title.max'      => 'عنوان بخش نمی‌تواند بیش از ۲۵۵ کاراکتر باشد.',
+
+            // Documents messages
+            'documents.array'      => 'لیست اسناد باید به صورت آرایه ارسال شود.',
+            'documents.*.exists'  => 'سند(های) انتخاب شده در سیستم وجود ندارند.',
         ];
     }
 }

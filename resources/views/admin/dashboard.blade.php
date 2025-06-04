@@ -46,23 +46,31 @@
         font-size: 1.8rem;
         color: #ffffff;
         font-weight: bold;
+        font-family: 'IranSans', 'Segoe UI', Tahoma, sans-serif;
+        direction: ltr;
+        display: inline-block;
+    }
+
+    .card-value::after {
+        content: attr(data-en-value);
+        display: none;
     }
 </style>
 
 @section('content')
     <div class="dashboard-header">
-        <h1 class="dashboard-title">خوش آمدید، مدیر!</h1>
-        <p class="dashboard-subtitle">در یک نگاه کلی محتوای خود را بررسی کنید.</p>
+        <h1 class="dashboard-title">خوش آمدید،</h1>
+        <p class="dashboard-subtitle">در یک نگاه کلی می‌توانید محتوای خود را بررسی کنید.</p>
     </div>
 
     <div class="dashboard-cards">
         <div class="dashboard-card">
             <h3 class="card-title">تعداد مستندات</h3>
-            <p class="card-value">{{ $DocsNum }}</p>
+            <p class="card-value" data-en-value="{{ $DocsNum }}">{{ to_persian_num($DocsNum) }}</p>
         </div>
         <div class="dashboard-card">
             <h3 class="card-title">تعداد بخش‌ها</h3>
-            <p class="card-value">{{ $SectionsNum }}</p>
+            <p class="card-value" data-en-value="{{ $SectionsNum }}">{{ to_persian_num($SectionsNum) }}</p>
         </div>
     </div>
 @endsection

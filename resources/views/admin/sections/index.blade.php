@@ -136,7 +136,7 @@
         @foreach ($sections as $section)
             <tr>
                 <td>{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($section->title)) !!}</td>
-                <td>{{ $section->docs->count() == 0 ? 'ندارد' : $section->docs->count() }}</td>
+                <td>{{ $section->docs->count() == 0 ? 'ندارد' : to_persian_num($section->docs->count()) }}</td>
                 <td class="actions">
                     <div class="action-buttons">
                         <a href="{{ route('admin.sections.show', $section->id) }}" class="btn-action btn-view" title="مشاهده">

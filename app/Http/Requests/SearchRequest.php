@@ -29,7 +29,8 @@ class SearchRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'search.required' => 'search cannot be empty',
+            'search.required' => 'فیلد جستجو نمی‌تواند خالی باشد',
+            'search.string'   => 'متن جستجو باید به صورت رشته متنی باشد',
         ];
     }
 }

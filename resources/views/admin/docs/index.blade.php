@@ -14,6 +14,7 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 1.5rem;
+        direction: rtl;
     }
 
     .btn-create {
@@ -36,25 +37,27 @@
     .admin-table {
         width: 100%;
         border-collapse: collapse;
-        background-color: white;
+        background-color: #1a1a1a;
         border-radius: 8px;
         overflow: hidden;
+        direction: rtl;
+        color: #e0e0e0;
     }
 
     .admin-table th,
     .admin-table td {
         padding: 1rem;
         text-align: right;
-        border-bottom: 1px solid #e5e7eb;
+        border-bottom: 1px solid #333;
     }
 
     .admin-table th {
-        background-color: #1f2937;
+        background-color: #121212;
         color: #f9fafb;
     }
 
     .admin-table tbody tr:hover {
-        background-color: #f3f4f6;
+        background-color: #222;
     }
 
     .actions {
@@ -68,7 +71,7 @@
     }
 
     .btn-action {
-        color: #6b7280;
+        color: #9ca3af;
         transition: color 0.2s;
     }
 
@@ -88,6 +91,25 @@
 
     .btn-delete:hover {
         color: #ef4444;
+    }
+
+    /* Additional styles for search input */
+    input[type="text"] {
+        width: 100%;
+        background-color: #121212;
+        color: #e0e0e0;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 0.4rem;
+    }
+
+    button[type="submit"] {
+        background-color: #2563eb;
+        color: white;
+        padding: 0.4rem 0.8rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
     }
 </style>
 
@@ -152,7 +174,7 @@
             <tr>
                 <td>{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</td>
                 <td>{!! $doc->section ? $doc->section->title : '<span style="color: red;">بدون بخش</span>' !!}</td>
-                <td>{{ $doc->updated_at->format('Y-m-d') }}</td>
+                <td>{{ to_persian_num($doc->updated_at->format('Y-m-d')) }}</td>
                 <td class="actions">
                     <div class="action-buttons">
                         <a href="{{ route('admin.docs.show', $doc->id) }}" class="btn-action btn-view" title="نمایش">

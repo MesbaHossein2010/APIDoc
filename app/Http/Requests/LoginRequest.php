@@ -30,8 +30,10 @@ class LoginRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'username.required' => 'Username cannot be empty',
-            'password.required' => 'Password cannot be empty',
+            'username.required' => 'نام کاربری نمی‌تواند خالی باشد',
+            'username.string'   => 'نام کاربری باید به صورت متن باشد',
+            'password.required' => 'رمز عبور نمی‌تواند خالی باشد',
+            'password.string'   => 'رمز عبور باید به صورت متن باشد',
         ];
     }
 }

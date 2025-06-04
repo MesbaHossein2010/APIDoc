@@ -23,9 +23,11 @@ class SectionEditRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'The section title is required.',
-            'title.max' => 'The section title must not exceed 255 characters.',
-            'documents.*.exists' => 'One or more selected documents are invalid.',
+            'title.required' => 'عنوان بخش الزامی است.',
+            'title.string' => 'عنوان بخش باید به صورت متن باشد.',
+            'title.max' => 'عنوان بخش نمی‌تواند بیش از ۲۵۵ کاراکتر باشد.',
+            'documents.array' => 'سندها باید به صورت آرایه ارسال شوند.',
+            'documents.*.exists' => 'یک یا چند سند انتخاب شده معتبر نیستند.',
         ];
     }
 }
