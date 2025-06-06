@@ -7,7 +7,6 @@ use App\Http\Requests\SectionStoreRequest;
 use App\Models\Document;
 use App\Models\Section;
 use Illuminate\Http\Request;
-
 class SectionController extends Controller
 {
     /**

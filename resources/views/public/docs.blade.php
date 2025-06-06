@@ -2,6 +2,8 @@
 
 @section('title', 'مستندات API')
 
+@use()
+
 <style>
 
 </style>

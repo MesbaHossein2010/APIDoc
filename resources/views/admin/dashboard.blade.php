@@ -2,6 +2,10 @@
 
 @section('title', 'داشبورد')
 
+@use (resources\views\helpers\Helper)
+@php($helper = new Helper())
+
+
 <style>
     .dashboard-header {
         margin-bottom: 2rem;
@@ -66,11 +70,11 @@
     <div class="dashboard-cards">
         <div class="dashboard-card">
             <h3 class="card-title">تعداد مستندات</h3>
-            <p class="card-value" data-en-value="{{ $DocsNum }}">{{ to_persian_num($DocsNum) }}</p>
+            <p class="card-value" data-en-value="{{ $DocsNum }}">{{ $helper->to_persian_num($DocsNum) }}</p>
         </div>
         <div class="dashboard-card">
             <h3 class="card-title">تعداد بخش‌ها</h3>
-            <p class="card-value" data-en-value="{{ $SectionsNum }}">{{ to_persian_num($SectionsNum) }}</p>
+            <p class="card-value" data-en-value="{{ $SectionsNum }}">{{ $helper->to_persian_num($SectionsNum) }}</p>
         </div>
     </div>
 @endsection
