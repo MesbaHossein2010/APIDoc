@@ -2,8 +2,8 @@
 
 @section('title', 'داشبورد')
 
-@use (resources\views\helpers\Helper)
-@php($helper = new Helper())
+{{--@use (resources\views\helpers\Helper)--}}
+@php($helper = new \App\Helpers\Helper())
 
 
 <style>

@@ -2,10 +2,10 @@
 
 @section('title', 'مستندات API')
 
-@use()
+{{--@use(resources\views\helpers\Helper)
+@php($helper = new \resources\views\helpers\Helpers())--}}
 
 <style>
-
 </style>
 
 @section('content')
@@ -19,29 +19,36 @@
         <!-- Slim Sidebar (220px) -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>مستندات API</h2>
+                <center>
+                    <h2>مستندات API</h2>
+                </center>
                 <form method="post">
                     @csrf
-                    <input name="search" type="text" class="sidebar-search" placeholder="جستجو..." aria-label="جستجوی مستندات" value="{{ $search }}">
+                    <input style="direction: rtl" name="search" type="text" class="sidebar-search"
+                           placeholder="جستجو..." aria-label="جستجوی مستندات" value="{{ $search }}">
                     <input type="submit" hidden="">
 
                     @if($search)
-                        <a href="" class="cancel-search-btn">✕ لغو</a>
+                        <a href="" class="cancel-search-btn">✕ بازگشت به صفحه اصلی</a>
                     @endif
                 </form>
             </div>
-            <nav class="sidebar-nav">
+            <nav class="sidebar-nav" style="overflow: hidden">
                 <ul class="sidebar-menu">
                     @if($search == null)
                         @foreach($sections as $section)
+
                             <li class="sidebar-section">{{ $section->title }}</li>
                             @foreach($section->docs as $doc)
+
                                 <li><a href="#{{ $doc->slug }}">{{ $doc->title }}</a></li>
                             @endforeach
                         @endforeach
                     @else
                         @foreach($docs as $doc)
-                            <li><a href="#{{ $doc->slug }}">{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</a></li>
+                            <li>
+                                <a href="#{{ $doc->slug }}">{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</a>
+                            </li>
                         @endforeach
                     @endif
                 </ul>
@@ -55,7 +62,10 @@
                     @if(count($section->docs))
                         <div class="section-wrapper">
                             <div class="section-header">
-                                <h2 class="section-title">{{ $section->title }}</h2>
+                                <center>
+                                    <h2 class="section-title">{{ $section->title }}</h2>
+                                </center>
+
                             </div>
 
                             @foreach($section->docs as $doc)

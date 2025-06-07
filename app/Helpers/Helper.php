@@ -1,6 +1,8 @@
 <?php
-namespace resources\views\helpers;
-class Helpers
+
+namespace App\Helpers;
+
+class Helper
 {
     public function to_persian_num($number)
     {

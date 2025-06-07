@@ -165,7 +165,7 @@
             <div class="form-row">
                 <label for="section_id" class="form-label">بخش مربوطه</label>
                 <select name="section_id" id="section_id" class="form-input">
-                    <option value="0">-- بدون بخش --</option>
+{{--                    <option value="0">-- بدون بخش --</option>--}}
                     @foreach ($sections as $section)
                         <option value="{{ $section->id }}" {{ old('section_id') == $section->id ? 'selected' : '' }}>
                             {{ $section->title }}

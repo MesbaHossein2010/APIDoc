@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('title', 'مدیریت مستندات')
+@php($helper = new \App\Helpers\Helper())
 
 <style>
     .btn-cancel {
@@ -128,18 +129,23 @@
     <div class="admin-header">
         <h1>{{ $section ? "مدیریت مستندات مربوط به «{$section->title}»" : 'مدیریت مستندات' }}</h1>
         @if(!$section)
-            <a href="{{ route('admin.docs.create') }}" class="btn-create">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                </svg>
-                مستند جدید
-            </a>
+
         @else
-            <a style="color: red;" href="{{ route('admin.sections.index') }}" class="btn-form btn-cancel">لغو</a>
+            <a style="color: red; text-decoration: none;" href="{{ route('admin.sections.index') }}" class="btn-form btn-cancel">بازگشت به صفحه اصلی</a>
         @endif
     </div>
+
+    <a href="{{ route('admin.docs.create') }}" class="btn-create">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        مستند جدید
+    </a>
+
+    <br>
+    <br>
 
     <table class="admin-table">
         <thead>
@@ -174,7 +180,7 @@
             <tr>
                 <td>{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</td>
                 <td>{!! $doc->section ? $doc->section->title : '<span style="color: red;">بدون بخش</span>' !!}</td>
-                <td>{{ to_persian_num($doc->updated_at->format('Y-m-d')) }}</td>
+                <td>{{ $helper->to_persian_num($doc->updated_at->format('Y-m-d')) }}</td>
                 <td class="actions">
                     <div class="action-buttons">
                         <a href="{{ route('admin.docs.show', $doc->id) }}" class="btn-action btn-view" title="نمایش">

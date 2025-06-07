@@ -8,6 +8,8 @@ use App\Models\Section;
 use Illuminate\Http\Request;
 use App\Models\Document;
 use Illuminate\Support\Facades\Auth;
+use Morilog\Jalali\Jalalian;
+
 
 class DocController extends Controller
 {
@@ -22,6 +24,10 @@ class DocController extends Controller
     {
         $sections = Section::all();
         $docs = Document::all()->sortBy('title');
+        foreach ($docs as $doc) {
+            $doc->created_at = Jalalian::fromCarbon($doc->created_at)->format('Y/m/d');
+            $doc->updated_at = Jalalian::fromCarbon($doc->updated_at)->format('Y/m/d');
+        }
         return view('admin.docs.index', compact('sections', 'docs'));
     }
 
