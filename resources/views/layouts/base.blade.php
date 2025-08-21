@@ -11,12 +11,6 @@
 <main class="main">
     @yield('content')
 </main>
-
-{{--<footer class="footer">
-    <div class="container">
-        &copy; {{ date('Y') }} API Platform. All rights reserved.
-    </div>
-</footer>--}}
 @stack('scripts')
 </body>
 </html>

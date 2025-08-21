@@ -16,7 +16,7 @@ class DocumentSeeder extends Seeder
     {
         // Create in smaller batches
         $batchSize = 50; // Process 50 records at a time
-        $totalRecords = 500;
+        $totalRecords = 50;
 
         for ($i = 0; $i < $totalRecords; $i += $batchSize) {
             Document::factory()
