@@ -1,93 +1,58 @@
 @extends('layouts.base')
 
-@section('title', 'مستندات API')
+@section('title', 'API Documentation')
 
 <style>
-    .hamburger-btn {
-        display: none;
-        font-size: 28px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        position: fixed;
-        top: 15px;
-        right: 15px;
-        z-index: 1001; /* بالاتر از منو */
-        transition: opacity 0.3s ease-in-out; /* انیمیشن مخفی و نمایش */
+    /* Inline code inside docs content */
+    .docs-content code {
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        color: #80bfff; /* soft blue for inline code */
+        background-color: #252525; /* dark background matching sidebar-search */
+        padding: 0.15em 0.3em;
+        border-radius: 4px;
+        white-space: nowrap;
+        user-select: text;
+        transition: background-color 0.2s ease;
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
     }
 
-    .close-btn {
-        display: none;
+    .docs-content code:hover {
+        background-color: #333; /* slightly lighter on hover */
     }
 
-    .docs-layout {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
+    /* Preformatted code blocks */
+    .docs-content pre {
+        background: #1e1e1e; /* same as your pre background */
+        padding: 1rem;
+        border-radius: 6px;
+        overflow-x: auto;
+        border: 1px solid #2d2d2d;
+        margin-bottom: 2.5rem;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        color: #80bfff; /* soft blue consistent with inline code */
+        line-height: 1.4;
+        outline: none !important;
+        box-shadow: none !important;
     }
 
-    .sidebar {
-        width: 220px;
-        min-width: 220px;
-        background: #f7f7f7;
-        height: 100vh;
-        overflow-y: auto;
+    /* Remove outline and shadow for code inside pre, including focus */
+    pre code {
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
     }
 
-    .docs-content {
-        flex: 1;
-        padding: 24px;
-    }
-
-    @media (max-width: 768px) {
-        .hamburger-btn {
-            display: block;
-        }
-
-        .docs-layout {
-            display: block;
-        }
-
-        .sidebar {
-            display: block;
-            position: fixed !important;
-            top: 0;
-            right: 0;
-            width: 220px;
-            height: 100vh;
-            background: #f7f7f7;
-            z-index: 1000;
-            overflow-y: auto;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-            transform: translateX(100%);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .docs-layout.show-sidebar .sidebar {
-            transform: translateX(0);
-        }
-
-        .close-btn {
-            display: block;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        #search-section,
-        #title-section {
-            display: none;
-        }
-    }
-
-    /* انیمیشن نرمی برای مخفی و نمایش همبرگری */
-    .hamburger-hidden {
-        opacity: 0;
-        pointer-events: none;
+    pre code:focus,
+    pre:focus,
+    pre code:focus-visible,
+    pre:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        border: none !important;
     }
 </style>
 
@@ -98,30 +63,22 @@
     @if(!isset($sections))
         @php($sections = null)
     @endif
-
-    <!-- دکمه منوی همبرگری -->
-    <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle Menu">☰</button>
-
-    <!-- پس‌زمینه تار در موبایل -->
-    <div class="overlay"></div>
-
     <div class="docs-layout">
-        <!-- Sidebar -->
+        <!-- Slim Sidebar (220px) -->
         <aside class="sidebar">
-            <button class="close-btn" aria-label="Close Menu">✕</button>
             <div class="sidebar-header">
-                <center><h2 id="title-section">مستندات API</h2></center>
+                <h2>API Docs</h2>
                 <form method="post">
                     @csrf
-                    <input  id="search-section" style="direction: rtl" name="search" type="text" class="sidebar-search"
-                            placeholder="جستجو..." aria-label="جستجوی مستندات" value="{{ $search }}">
+                    <input name="search" type="text" class="sidebar-search" placeholder="Search..." aria-label="Search documentation" value="{{ $search }}">
                     <input type="submit" hidden="">
+
                     @if($search)
-                        <a href="" class="cancel-search-btn">✕ بازگشت به صفحه اصلی</a>
+                        <a href="" class="cancel-search-btn">✕ Cancel</a>
                     @endif
                 </form>
             </div>
-            <nav class="sidebar-nav" style="overflow: hidden">
+            <nav class="sidebar-nav">
                 <ul class="sidebar-menu">
                     @if($search == null)
                         @foreach($sections as $section)
@@ -132,23 +89,22 @@
                         @endforeach
                     @else
                         @foreach($docs as $doc)
-                            <li>
-                                <a href="#{{ $doc->slug }}">{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</a>
-                            </li>
+                            <li><a href="#{{ $doc->slug }}">{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</a></li>
                         @endforeach
                     @endif
                 </ul>
             </nav>
         </aside>
 
-        <!-- Content -->
+        <!-- Documentation Content (with scroll demo) -->
         <main class="docs-content">
             <article class="docs-article">
+
                 @foreach($sections as $section)
                     @if(count($section->docs))
                         <div class="section-wrapper">
                             <div class="section-header">
-                                <center><h2 class="section-title">{{ $section->title }}</h2></center>
+                                <h2 class="section-title">{{ $section->title }}</h2>
                             </div>
 
                             @foreach($section->docs as $doc)
@@ -160,6 +116,7 @@
                         </div>
                     @endif
                 @endforeach
+
             </article>
         </main>
     </div>
@@ -170,47 +127,36 @@
         document.addEventListener('DOMContentLoaded', () => {
             const sections = document.querySelectorAll('.docs-article section');
             const navLinks = document.querySelectorAll('.sidebar-menu a');
-            const observerOptions = { root: null, rootMargin: '0px 0px -70% 0px', threshold: 0 };
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -70% 0px',
+                threshold: 0
+            };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const id = entry.target.getAttribute('id');
+
                         navLinks.forEach(link => {
                             link.classList.remove('active');
                             if (link.getAttribute('href') === `#${id}`) {
                                 link.classList.add('active');
-                                link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+
+                                // Scroll the link into view if it's out of view
+                                link.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'nearest',
+                                    inline: 'nearest'
+                                });
                             }
                         });
                     }
                 });
             }, observerOptions);
+
             sections.forEach(section => observer.observe(section));
-
-            const hamburgerBtn = document.getElementById('hamburger-btn');
-            const docsLayout = document.querySelector('.docs-layout');
-            const overlay = document.querySelector('.overlay');
-            const closeBtn = document.querySelector('.close-btn');
-
-            function closeSidebar() {
-                docsLayout.classList.remove('show-sidebar');
-                overlay.classList.remove('show');
-                hamburgerBtn.classList.remove('hamburger-hidden'); // نمایش همبرگری با انیمیشن
-            }
-
-            hamburgerBtn.addEventListener('click', () => {
-                docsLayout.classList.toggle('show-sidebar');
-                overlay.classList.toggle('show');
-                hamburgerBtn.classList.add('hamburger-hidden'); // مخفی شدن همبرگری با انیمیشن
-            });
-
-            closeBtn.addEventListener('click', closeSidebar);
-            overlay.addEventListener('click', closeSidebar);
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', closeSidebar);
-            });
         });
     </script>
 @endpush
