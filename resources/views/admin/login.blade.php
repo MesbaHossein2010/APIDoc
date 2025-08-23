@@ -1,157 +1,318 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ورود به پنل مدیریت</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8"/>
+    <meta name="theme-color" content="#1e1e1e"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ورود</title>
+    <!-- فونت محلی Vazirmatn -->
     <style>
-        :root {
-            --bg-dark: #121212;
-            --card-bg: #1e1e1e;
-            --border-color: #2d2d2d;
-            --text-light: #e0e0e0;
-            --text-white: #ffffff;
-            --primary-blue: #80bfff;
-            --primary-hover: #a0d2ff;
-            --input-bg: #252525;
-            --input-border: #3a3a3a;
-        }
 
+        @font-face {
+            /*font-family: 'Vazirmatn';*/
+            {{--src: url('{{ asset("fonts/Vazirmatn-Regular.woff2") }}') format('woff2'),--}}
+            {{--url('{{ asset("fonts/Vazirmatn-Regular.woff") }}') format('woff');--}}
+            font-family: 'Vazirmatn', 'IRANSans', 'Tahoma', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+        }
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Inter', -apple-system, sans-serif;
-            line-height: 1.6;
-            min-height: 100vh;
+            background: #0f111a;
+            overflow: hidden;
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 1rem;
+            justify-content: center;
+            height: 100vh;
+        }
+        body {
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
-        .login-wrapper {
-            width: 100%;
-            max-width: 32rem;  /* Increased from 28rem to make wider */
-            padding: 1rem;
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
 
-        .login-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            padding: 2.5rem;
-            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
-            width: 100%;
+        .container {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            width: 360px;
+            color: #fff;
+            direction: rtl;
         }
 
-        .login-header {
+        .container h2 {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
 
-        .login-title {
-            color: var(--text-white);
-            font-size: 1.35rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
+        .container p {
+            text-align: center;
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 20px;
         }
 
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+        .form-group {
+            margin-bottom: 15px;
         }
 
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
         }
 
-        .form-label {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            font-weight: 400;
-        }
-
-        .form-input {
+        .form-group input {
             width: 100%;
-            padding: 0.875rem 1rem;
-            background-color: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: 0.375rem;
-            color: var(--text-white);
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: all 0.2s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(128, 191, 255, 0.15);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 0.875rem;
-            background-color: var(--primary-blue);
-            color: var(--bg-dark);
+            padding: 10px;
+            background-color: #2c2c2c;
             border: none;
-            border-radius: 0.375rem;
-            font-weight: 500;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 1rem;
+            border-radius: 5px;
+            color: #fff;
         }
 
-        .submit-btn:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-1px);
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #e53935;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
         }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .footer a {
+            color: #e53935;
+            text-decoration: none;
+        }
+
+        .login-button {
+            background-color: #e74c3c; /* قرمز اصلی */
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #481e1e; /* رنگ هنگام هاور */
+            cursor: pointer;
+        }
+        .floating-label-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .floating-label-group input {
+            width: 100%;
+            padding: 12px 12px 12px 12px;
+            font-size: 16px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background-color: #222;
+            color: white;
+        }
+
+        .floating-label-group label {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            color: #999;
+            background-color: #222;
+            padding: 0 5px;
+            pointer-events: none;
+            transform: translateY(-50%);
+            transition: 0.2s ease all;
+        }
+
+        .floating-label-group input:focus + label,
+        .floating-label-group input:not(:placeholder-shown) + label {
+            top: -10px;
+            font-size: 12px;
+            color: #e74c3c;
+        }
+
 
         @media (max-width: 480px) {
-            .login-card {
-                padding: 1.5rem;
+            .container {
+                width: 90%;
+                padding: 1rem;
             }
 
-            .login-title {
-                font-size: 1.2rem;
+            .container h2 {
+                font-size: 20px;
+            }
+
+            .container p {
+                font-size: 12px;
+            }
+
+            .form-group input {
+                font-size: 14px;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .floating-label-group input {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .floating-label-group label {
+                font-size: 12px;
             }
         }
+
     </style>
+
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
 <body>
-<div class="login-wrapper">
-    <div class="login-card">
-        <header class="login-header">
-            <h1 class="login-title">لطفاً برای ورود نام کاربری و رمز عبور را وارد کنید</h1>
-        </header>
 
-        <form class="login-form" autocomplete="off" method="post">
-            @csrf
-
-            <div class="form-field">
-                <label for="username" class="form-label">نام کاربری</label>
-                <input type="text" id="username" name="username" class="form-input" placeholder="نام کاربری" required>
-            </div>
-
-            <div class="form-field">
-                <label for="password" class="form-label">رمز عبور</label>
-                <input type="password" id="password" name="password" class="form-input" placeholder="رمز عبور" required>
-            </div>
-
-            <button type="submit" class="submit-btn">ورود به پنل</button>
-        </form>
+@if ($errors->any())
+    <div class="bg-red-100 text-red-800 p-3 rounded mb-4">
+        <ul class="list-disc list-inside">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
+@endif
+
+<canvas id="bgCanvas"></canvas>
+
+<div class="container">
+    <h2>خوش آمدید</h2>
+    <p>لطفاً برای ادامه وارد شوید</p>
+
+    <form method="POST" action="{{ route('admin.login') }}">
+        @csrf
+        <div class="form-group">
+            <div class="floating-label-group">
+                <input type="text" name="username" id="username" class="form-control" required placeholder="نام کاربری">
+                <label for="username">نام کاربری</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="floating-label-group">
+                <input type="password" name="password" id="password" class="form-control" required placeholder="رمز عبور">
+                <label for="password">رمز عبور</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn">ورود</button>
+    </form>
 </div>
+
+<script src="{{ asset('js/login.js') }}"></script>
 </body>
+<script>
+    const canvas = document.getElementById("bgCanvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * 1;
+            this.vy = (Math.random() - 0.5) * 1;
+            this.radius = 2;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                this.reset();
+            }
+        }
+
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = "white";
+            ctx.fill();
+        }
+    }
+
+    for (let i = 0; i < 100; i++) {
+        particles.push(new Particle());
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+
+            for (let j = i + 1; j < particles.length; j++) {
+                let dx = particles[i].x - particles[j].x;
+                let dy = particles[i].y - particles[j].y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 100) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y
+                    );
+                    ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+                    ctx.stroke();
+                }
+            }
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+</script>
 </html>
