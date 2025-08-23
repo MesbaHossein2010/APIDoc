@@ -1,0 +1,39 @@
+<!-- Slim Sidebar (220px) -->
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <center>
+            <h2>مستندات API</h2>
+        </center>
+        <form method="post">
+            @csrf
+            <input style="direction: rtl;     font-family: 'Vazirmatn', 'IRANSans', 'Tahoma', sans-serif;" name="search"
+                   type="text" class="sidebar-search"
+                   placeholder="جستجو..." aria-label="جستجوی مستندات" value="{{ $search }}">
+            <input type="submit" hidden="">
+
+            @if($search)
+                <a href="" class="cancel-search-btn">✕ بازگشت به صفحه اصلی</a>
+            @endif
+        </form>
+    </div>
+    <nav class="sidebar-nav" style="overflow: hidden">
+        <ul class="sidebar-menu">
+            @if($search == null)
+                @foreach($sections as $section)
+
+                    <li class="sidebar-section">{{ $section->title }}</li>
+                    @foreach($section->docs as $doc)
+
+                        <li><a href="#{{ $doc->slug }}">{{ $doc->title }}</a></li>
+                    @endforeach
+                @endforeach
+            @else
+                @foreach($docs as $doc)
+                    <li>
+                        <a href="#{{ $doc->slug }}">{!! str_ireplace($search, "<span style='color: cyan;'>".$search."</span>", e($doc->title)) !!}</a>
+                    </li>
+                @endforeach
+            @endif
+        </ul>
+    </nav>
+</aside>
