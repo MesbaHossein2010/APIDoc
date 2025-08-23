@@ -33,7 +33,7 @@
                 <label for="section_id" class="form-label">بخش</label>
                 <select name="section_id" id="section_id" class="form-input">
 {{--                    <option value="0">-- بدون بخش --</option>--}}
-                    @foreach ($sections as $sت ection)
+                    @foreach ($sections as $section)
                         <option value="{{ $section->id }}"
                             {{ $doc->section && $doc->section->id == $section->id ? 'selected' : '' }}>
                             {{ $section->title }}
